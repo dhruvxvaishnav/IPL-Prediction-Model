@@ -1,0 +1,227 @@
+team1,team2,matches_played,team1_wins,team2_wins,team1_win_rate
+Royal Challengers Bangalore,Kings XI Punjab,26,12,14,0.46153846153846156
+Royal Challengers Bangalore,Delhi Daredevils,21,13,6,0.6190476190476191
+Royal Challengers Bangalore,Kolkata Knight Riders,32,14,18,0.4375
+Royal Challengers Bangalore,Mumbai Indians,32,13,18,0.40625
+Royal Challengers Bangalore,Rajasthan Royals,29,15,12,0.5172413793103449
+Royal Challengers Bangalore,Deccan Chargers,11,5,6,0.45454545454545453
+Royal Challengers Bangalore,Chennai Super Kings,30,10,20,0.3333333333333333
+Royal Challengers Bangalore,Kochi Tuskers Kerala,2,2,0,1.0
+Royal Challengers Bangalore,Pune Warriors,5,5,0,1.0
+Royal Challengers Bangalore,Sunrisers Hyderabad,22,10,11,0.45454545454545453
+Royal Challengers Bangalore,Gujarat Lions,5,3,2,0.6
+Royal Challengers Bangalore,Rising Pune Supergiants,2,2,0,1.0
+Royal Challengers Bangalore,Rising Pune Supergiant,2,0,2,0.0
+Royal Challengers Bangalore,Delhi Capitals,9,4,5,0.4444444444444444
+Royal Challengers Bangalore,Punjab Kings,5,2,3,0.4
+Royal Challengers Bangalore,Gujarat Titans,3,1,2,0.3333333333333333
+Royal Challengers Bangalore,Lucknow Super Giants,4,3,1,0.75
+Kings XI Punjab,Royal Challengers Bangalore,26,14,12,0.5384615384615384
+Kings XI Punjab,Delhi Daredevils,22,13,9,0.5909090909090909
+Kings XI Punjab,Kolkata Knight Riders,27,9,18,0.3333333333333333
+Kings XI Punjab,Mumbai Indians,26,11,14,0.4230769230769231
+Kings XI Punjab,Rajasthan Royals,21,8,12,0.38095238095238093
+Kings XI Punjab,Deccan Chargers,10,7,3,0.7
+Kings XI Punjab,Chennai Super Kings,23,8,14,0.34782608695652173
+Kings XI Punjab,Kochi Tuskers Kerala,1,1,0,1.0
+Kings XI Punjab,Pune Warriors,6,3,3,0.5
+Kings XI Punjab,Sunrisers Hyderabad,16,5,11,0.3125
+Kings XI Punjab,Gujarat Lions,4,2,2,0.5
+Kings XI Punjab,Rising Pune Supergiants,2,1,1,0.5
+Kings XI Punjab,Rising Pune Supergiant,2,1,1,0.5
+Kings XI Punjab,Delhi Capitals,4,2,1,0.5
+Delhi Daredevils,Royal Challengers Bangalore,21,6,13,0.2857142857142857
+Delhi Daredevils,Kings XI Punjab,22,9,13,0.4090909090909091
+Delhi Daredevils,Kolkata Knight Riders,21,8,13,0.38095238095238093
+Delhi Daredevils,Mumbai Indians,22,11,11,0.5
+Delhi Daredevils,Rajasthan Royals,18,7,11,0.3888888888888889
+Delhi Daredevils,Deccan Chargers,11,7,4,0.6363636363636364
+Delhi Daredevils,Chennai Super Kings,18,6,12,0.3333333333333333
+Delhi Daredevils,Kochi Tuskers Kerala,2,1,1,0.5
+Delhi Daredevils,Pune Warriors,6,3,2,0.5
+Delhi Daredevils,Sunrisers Hyderabad,12,4,8,0.3333333333333333
+Delhi Daredevils,Gujarat Lions,4,3,1,0.75
+Delhi Daredevils,Rising Pune Supergiants,2,0,2,0.0
+Delhi Daredevils,Rising Pune Supergiant,2,2,0,1.0
+Kolkata Knight Riders,Royal Challengers Bangalore,32,18,14,0.5625
+Kolkata Knight Riders,Kings XI Punjab,27,18,9,0.6666666666666666
+Kolkata Knight Riders,Delhi Daredevils,21,13,8,0.6190476190476191
+Kolkata Knight Riders,Mumbai Indians,34,11,23,0.3235294117647059
+Kolkata Knight Riders,Rajasthan Royals,28,14,12,0.5
+Kolkata Knight Riders,Deccan Chargers,9,7,2,0.7777777777777778
+Kolkata Knight Riders,Chennai Super Kings,29,10,19,0.3448275862068966
+Kolkata Knight Riders,Kochi Tuskers Kerala,2,0,2,0.0
+Kolkata Knight Riders,Pune Warriors,5,4,1,0.8
+Kolkata Knight Riders,Sunrisers Hyderabad,28,18,9,0.6428571428571429
+Kolkata Knight Riders,Gujarat Lions,4,1,3,0.25
+Kolkata Knight Riders,Rising Pune Supergiants,2,2,0,1.0
+Kolkata Knight Riders,Rising Pune Supergiant,2,1,1,0.5
+Kolkata Knight Riders,Delhi Capitals,12,5,6,0.4166666666666667
+Kolkata Knight Riders,Punjab Kings,6,3,3,0.5
+Kolkata Knight Riders,Gujarat Titans,3,1,2,0.3333333333333333
+Kolkata Knight Riders,Lucknow Super Giants,5,2,3,0.4
+Kolkata Knight Riders,Royal Challengers Bengaluru,2,2,0,1.0
+Mumbai Indians,Royal Challengers Bangalore,32,18,13,0.5625
+Mumbai Indians,Kings XI Punjab,26,14,11,0.5384615384615384
+Mumbai Indians,Delhi Daredevils,22,11,11,0.5
+Mumbai Indians,Kolkata Knight Riders,34,23,11,0.6764705882352942
+Mumbai Indians,Rajasthan Royals,29,15,14,0.5172413793103449
+Mumbai Indians,Deccan Chargers,10,6,4,0.6
+Mumbai Indians,Chennai Super Kings,37,20,17,0.5405405405405406
+Mumbai Indians,Kochi Tuskers Kerala,1,0,1,0.0
+Mumbai Indians,Pune Warriors,6,5,1,0.8333333333333334
+Mumbai Indians,Sunrisers Hyderabad,23,12,10,0.5217391304347826
+Mumbai Indians,Gujarat Lions,4,1,2,0.25
+Mumbai Indians,Rising Pune Supergiants,2,1,1,0.5
+Mumbai Indians,Rising Pune Supergiant,4,1,3,0.25
+Mumbai Indians,Delhi Capitals,13,8,5,0.6153846153846154
+Mumbai Indians,Punjab Kings,6,3,3,0.5
+Mumbai Indians,Gujarat Titans,5,2,3,0.4
+Mumbai Indians,Lucknow Super Giants,6,1,5,0.16666666666666666
+Mumbai Indians,Royal Challengers Bengaluru,1,1,0,1.0
+Rajasthan Royals,Royal Challengers Bangalore,29,12,15,0.41379310344827586
+Rajasthan Royals,Kings XI Punjab,21,12,8,0.5714285714285714
+Rajasthan Royals,Delhi Daredevils,18,11,7,0.6111111111111112
+Rajasthan Royals,Kolkata Knight Riders,28,12,14,0.42857142857142855
+Rajasthan Royals,Mumbai Indians,29,14,15,0.4827586206896552
+Rajasthan Royals,Deccan Chargers,9,7,2,0.7777777777777778
+Rajasthan Royals,Chennai Super Kings,29,13,16,0.4482758620689655
+Rajasthan Royals,Kochi Tuskers Kerala,2,1,1,0.5
+Rajasthan Royals,Pune Warriors,5,4,1,0.8
+Rajasthan Royals,Sunrisers Hyderabad,20,9,11,0.45
+Rajasthan Royals,Delhi Capitals,11,4,7,0.36363636363636365
+Rajasthan Royals,Punjab Kings,7,4,3,0.5714285714285714
+Rajasthan Royals,Gujarat Titans,6,1,5,0.16666666666666666
+Rajasthan Royals,Lucknow Super Giants,5,4,1,0.8
+Rajasthan Royals,Royal Challengers Bengaluru,2,2,0,1.0
+Deccan Chargers,Royal Challengers Bangalore,11,6,5,0.5454545454545454
+Deccan Chargers,Kings XI Punjab,10,3,7,0.3
+Deccan Chargers,Delhi Daredevils,11,4,7,0.36363636363636365
+Deccan Chargers,Kolkata Knight Riders,9,2,7,0.2222222222222222
+Deccan Chargers,Mumbai Indians,10,4,6,0.4
+Deccan Chargers,Rajasthan Royals,9,2,7,0.2222222222222222
+Deccan Chargers,Chennai Super Kings,10,4,6,0.4
+Deccan Chargers,Kochi Tuskers Kerala,1,1,0,1.0
+Deccan Chargers,Pune Warriors,4,3,1,0.75
+Chennai Super Kings,Royal Challengers Bangalore,30,20,10,0.6666666666666666
+Chennai Super Kings,Kings XI Punjab,23,14,8,0.6086956521739131
+Chennai Super Kings,Delhi Daredevils,18,12,6,0.6666666666666666
+Chennai Super Kings,Kolkata Knight Riders,29,19,10,0.6551724137931034
+Chennai Super Kings,Mumbai Indians,37,17,20,0.4594594594594595
+Chennai Super Kings,Rajasthan Royals,29,16,13,0.5517241379310345
+Chennai Super Kings,Deccan Chargers,10,6,4,0.6
+Chennai Super Kings,Kochi Tuskers Kerala,2,1,1,0.5
+Chennai Super Kings,Pune Warriors,6,4,2,0.6666666666666666
+Chennai Super Kings,Sunrisers Hyderabad,21,15,6,0.7142857142857143
+Chennai Super Kings,Delhi Capitals,12,7,5,0.5833333333333334
+Chennai Super Kings,Punjab Kings,7,2,5,0.2857142857142857
+Chennai Super Kings,Gujarat Titans,7,3,4,0.42857142857142855
+Chennai Super Kings,Lucknow Super Giants,5,1,3,0.2
+Chennai Super Kings,Royal Challengers Bengaluru,2,1,1,0.5
+Kochi Tuskers Kerala,Royal Challengers Bangalore,2,0,2,0.0
+Kochi Tuskers Kerala,Kings XI Punjab,1,0,1,0.0
+Kochi Tuskers Kerala,Delhi Daredevils,2,1,1,0.5
+Kochi Tuskers Kerala,Kolkata Knight Riders,2,2,0,1.0
+Kochi Tuskers Kerala,Mumbai Indians,1,1,0,1.0
+Kochi Tuskers Kerala,Rajasthan Royals,2,1,1,0.5
+Kochi Tuskers Kerala,Deccan Chargers,1,0,1,0.0
+Kochi Tuskers Kerala,Chennai Super Kings,2,1,1,0.5
+Kochi Tuskers Kerala,Pune Warriors,1,0,1,0.0
+Pune Warriors,Royal Challengers Bangalore,5,0,5,0.0
+Pune Warriors,Kings XI Punjab,6,3,3,0.5
+Pune Warriors,Delhi Daredevils,6,2,3,0.3333333333333333
+Pune Warriors,Kolkata Knight Riders,5,1,4,0.2
+Pune Warriors,Mumbai Indians,6,1,5,0.16666666666666666
+Pune Warriors,Rajasthan Royals,5,1,4,0.2
+Pune Warriors,Deccan Chargers,4,1,3,0.25
+Pune Warriors,Chennai Super Kings,6,2,4,0.3333333333333333
+Pune Warriors,Kochi Tuskers Kerala,1,1,0,1.0
+Pune Warriors,Sunrisers Hyderabad,2,0,2,0.0
+Sunrisers Hyderabad,Royal Challengers Bangalore,22,11,10,0.5
+Sunrisers Hyderabad,Kings XI Punjab,16,11,5,0.6875
+Sunrisers Hyderabad,Delhi Daredevils,12,8,4,0.6666666666666666
+Sunrisers Hyderabad,Kolkata Knight Riders,28,9,18,0.32142857142857145
+Sunrisers Hyderabad,Mumbai Indians,23,10,12,0.43478260869565216
+Sunrisers Hyderabad,Rajasthan Royals,20,11,9,0.55
+Sunrisers Hyderabad,Chennai Super Kings,21,6,15,0.2857142857142857
+Sunrisers Hyderabad,Pune Warriors,2,2,0,1.0
+Sunrisers Hyderabad,Gujarat Lions,5,5,0,1.0
+Sunrisers Hyderabad,Rising Pune Supergiants,2,1,1,0.5
+Sunrisers Hyderabad,Rising Pune Supergiant,2,0,2,0.0
+Sunrisers Hyderabad,Delhi Capitals,12,5,6,0.4166666666666667
+Sunrisers Hyderabad,Punjab Kings,7,5,2,0.7142857142857143
+Sunrisers Hyderabad,Gujarat Titans,4,1,3,0.25
+Sunrisers Hyderabad,Lucknow Super Giants,4,1,3,0.25
+Sunrisers Hyderabad,Royal Challengers Bengaluru,2,1,1,0.5
+Gujarat Lions,Royal Challengers Bangalore,5,2,3,0.4
+Gujarat Lions,Kings XI Punjab,4,2,2,0.5
+Gujarat Lions,Delhi Daredevils,4,1,3,0.25
+Gujarat Lions,Kolkata Knight Riders,4,3,1,0.75
+Gujarat Lions,Mumbai Indians,4,2,1,0.5
+Gujarat Lions,Sunrisers Hyderabad,5,0,5,0.0
+Gujarat Lions,Rising Pune Supergiants,2,2,0,1.0
+Gujarat Lions,Rising Pune Supergiant,2,1,1,0.5
+Rising Pune Supergiants,Royal Challengers Bangalore,2,0,2,0.0
+Rising Pune Supergiants,Kings XI Punjab,2,1,1,0.5
+Rising Pune Supergiants,Delhi Daredevils,2,2,0,1.0
+Rising Pune Supergiants,Kolkata Knight Riders,2,0,2,0.0
+Rising Pune Supergiants,Mumbai Indians,2,1,1,0.5
+Rising Pune Supergiants,Sunrisers Hyderabad,2,1,1,0.5
+Rising Pune Supergiants,Gujarat Lions,2,0,2,0.0
+Rising Pune Supergiant,Royal Challengers Bangalore,2,2,0,1.0
+Rising Pune Supergiant,Kings XI Punjab,2,1,1,0.5
+Rising Pune Supergiant,Delhi Daredevils,2,0,2,0.0
+Rising Pune Supergiant,Kolkata Knight Riders,2,1,1,0.5
+Rising Pune Supergiant,Mumbai Indians,4,3,1,0.75
+Rising Pune Supergiant,Sunrisers Hyderabad,2,2,0,1.0
+Rising Pune Supergiant,Gujarat Lions,2,1,1,0.5
+Delhi Capitals,Royal Challengers Bangalore,9,5,4,0.5555555555555556
+Delhi Capitals,Kings XI Punjab,4,1,2,0.25
+Delhi Capitals,Kolkata Knight Riders,12,6,5,0.5
+Delhi Capitals,Mumbai Indians,13,5,8,0.38461538461538464
+Delhi Capitals,Rajasthan Royals,11,7,4,0.6363636363636364
+Delhi Capitals,Chennai Super Kings,12,5,7,0.4166666666666667
+Delhi Capitals,Sunrisers Hyderabad,12,6,5,0.5
+Delhi Capitals,Punjab Kings,7,5,2,0.7142857142857143
+Delhi Capitals,Gujarat Titans,5,3,2,0.6
+Delhi Capitals,Lucknow Super Giants,5,2,3,0.4
+Delhi Capitals,Royal Challengers Bengaluru,1,0,1,0.0
+Punjab Kings,Royal Challengers Bangalore,5,3,2,0.6
+Punjab Kings,Kolkata Knight Riders,6,3,3,0.5
+Punjab Kings,Mumbai Indians,6,3,3,0.5
+Punjab Kings,Rajasthan Royals,7,3,4,0.42857142857142855
+Punjab Kings,Chennai Super Kings,7,5,2,0.7142857142857143
+Punjab Kings,Sunrisers Hyderabad,7,2,5,0.2857142857142857
+Punjab Kings,Delhi Capitals,7,2,5,0.2857142857142857
+Punjab Kings,Gujarat Titans,5,2,3,0.4
+Punjab Kings,Lucknow Super Giants,4,1,3,0.25
+Punjab Kings,Royal Challengers Bengaluru,2,0,2,0.0
+Gujarat Titans,Royal Challengers Bangalore,3,2,1,0.6666666666666666
+Gujarat Titans,Kolkata Knight Riders,3,2,1,0.6666666666666666
+Gujarat Titans,Mumbai Indians,5,3,2,0.6
+Gujarat Titans,Rajasthan Royals,6,5,1,0.8333333333333334
+Gujarat Titans,Chennai Super Kings,7,4,3,0.5714285714285714
+Gujarat Titans,Sunrisers Hyderabad,4,3,1,0.75
+Gujarat Titans,Delhi Capitals,5,2,3,0.4
+Gujarat Titans,Punjab Kings,5,3,2,0.6
+Gujarat Titans,Lucknow Super Giants,5,4,1,0.8
+Gujarat Titans,Royal Challengers Bengaluru,2,0,2,0.0
+Lucknow Super Giants,Royal Challengers Bangalore,4,1,3,0.25
+Lucknow Super Giants,Kolkata Knight Riders,5,3,2,0.6
+Lucknow Super Giants,Mumbai Indians,6,5,1,0.8333333333333334
+Lucknow Super Giants,Rajasthan Royals,5,1,4,0.2
+Lucknow Super Giants,Chennai Super Kings,5,3,1,0.6
+Lucknow Super Giants,Sunrisers Hyderabad,4,3,1,0.75
+Lucknow Super Giants,Delhi Capitals,5,3,2,0.6
+Lucknow Super Giants,Punjab Kings,4,3,1,0.75
+Lucknow Super Giants,Gujarat Titans,5,1,4,0.2
+Lucknow Super Giants,Royal Challengers Bengaluru,1,1,0,1.0
+Royal Challengers Bengaluru,Kolkata Knight Riders,2,0,2,0.0
+Royal Challengers Bengaluru,Mumbai Indians,1,0,1,0.0
+Royal Challengers Bengaluru,Rajasthan Royals,2,0,2,0.0
+Royal Challengers Bengaluru,Chennai Super Kings,2,1,1,0.5
+Royal Challengers Bengaluru,Sunrisers Hyderabad,2,1,1,0.5
+Royal Challengers Bengaluru,Delhi Capitals,1,1,0,1.0
+Royal Challengers Bengaluru,Punjab Kings,2,2,0,1.0
+Royal Challengers Bengaluru,Gujarat Titans,2,2,0,1.0
+Royal Challengers Bengaluru,Lucknow Super Giants,1,0,1,0.0

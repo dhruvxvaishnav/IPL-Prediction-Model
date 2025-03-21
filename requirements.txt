@@ -1,0 +1,22 @@
+# Core data libraries
+pandas==1.5.3
+numpy==1.24.3
+
+# Visualization
+matplotlib==3.7.1
+seaborn==0.12.2
+
+# Machine learning
+scikit-learn==1.2.2
+xgboost==1.7.5
+catboost==1.2.0
+
+# Utilities
+joblib==1.2.0
+
+# Data processing
+pyyaml==6.0
+beautifulsoup4==4.12.2
+
+# Optional: Web dashboard
+flask==2.3.3

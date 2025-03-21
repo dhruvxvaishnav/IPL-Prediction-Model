@@ -1,0 +1,4 @@
+match_id,date,team1,team2,venue,city,team1_toss_bat,team1_toss_field,team2_toss_bat,team2_toss_field
+2024_01,2024-03-22,Chennai Super Kings,Royal Challengers Bangalore,M. A. Chidambaram Stadium,Chennai,Chennai Super Kings win with 69.93% probability,Chennai Super Kings win with 69.47% probability,Chennai Super Kings win with 69.95% probability,Chennai Super Kings win with 68.79% probability
+2024_02,2024-03-23,Punjab Kings,Delhi Capitals,Punjab Cricket Association Stadium,Mohali,Delhi Capitals win with 70.50% probability,Delhi Capitals win with 71.13% probability,Delhi Capitals win with 69.75% probability,Delhi Capitals win with 71.28% probability
+2024_03,2024-03-23,Kolkata Knight Riders,Sunrisers Hyderabad,Eden Gardens,Kolkata,Kolkata Knight Riders win with 58.74% probability,Kolkata Knight Riders win with 58.54% probability,Kolkata Knight Riders win with 59.70% probability,Kolkata Knight Riders win with 58.06% probability
