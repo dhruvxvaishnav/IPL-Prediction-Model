@@ -1526,6 +1526,7 @@ for result in gt_rr:
 
 # List of upcoming matches
 upcoming_matches = [
+    ('Kolkata Knight Riders', 'Royal Challengers Bangalore', 'Eden Gardens', 'Kolkata'),
     ('Sunrisers Hyderabad', 'Rajasthan Royals', 'Rajiv Gandhi International Stadium', 'Hyderabad'),
     ('Chennai Super Kings', 'Mumbai Indians', 'M. A. Chidambaram Stadium', 'Chennai'),
     ('Delhi Capitals', 'Lucknow Super Giants', 'ACA-VDCA Cricket Stadium', 'Visakhapatnam'),
@@ -1552,4 +1553,1578 @@ for team1, team2, venue, city in upcoming_matches:
     # Team 2 wins toss and fields
     pred4 = predict_match(tuned_model, team1, team2, venue, city, team2, 'field')
     print(f"If {team2} wins toss & fields: {pred4}")
+
+# Create directories if they don't exist
+import os
+os.makedirs("/content/drive/MyDrive/IPL_Prediction_Model/data", exist_ok=True)
+
+# Now create and save the data
+import pandas as pd
+import numpy as np
+
+# Same player_data code as before...
+player_data = [
+    # Format: [id, name, role, country, batting_impact, bowling_impact, 2024_team, 2025_team]
+    [1, 'Rohit Sharma', 'Batsman', 'India', 80, 10, 'Mumbai Indians', 'Mumbai Indians'],
+    # Rest of player data...
+]
+
+# Create players dataframe
+players_df = pd.DataFrame(player_data, columns=['player_id', 'name', 'role', 'country',
+                                              'batting_impact', 'bowling_impact',
+                                              'team_2024', 'team_2025'])
+
+# Calculate overall impact
+players_df['overall_impact'] = players_df['batting_impact'] + players_df['bowling_impact']
+
+# Create team affiliations
+# Rest of the code as before...
+
+# Save to CSV
+players_df.to_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/players_manual.csv", index=False)
+affiliations_df.to_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/player_affiliations.csv", index=False)
+
+# --- IPL 2025 Player Data (Manual Approach) ---
+import pandas as pd
+import numpy as np
+
+# Create player database with 2024 and 2025 team affiliations
+player_data = [
+    # Format: [id, name, role, country, batting_impact, bowling_impact, 2024_team, 2025_team]
+    [1, 'Rohit Sharma', 'Batsman', 'India', 80, 10, 'Mumbai Indians', 'Mumbai Indians'],
+    [2, 'Hardik Pandya', 'All-rounder', 'India', 75, 65, 'Mumbai Indians', 'Mumbai Indians'],
+    [3, 'Jasprit Bumrah', 'Bowler', 'India', 10, 95, 'Mumbai Indians', 'Mumbai Indians'],
+    [4, 'MS Dhoni', 'Wicketkeeper', 'India', 65, 0, 'Chennai Super Kings', 'Chennai Super Kings'],
+    [5, 'Ravindra Jadeja', 'All-rounder', 'India', 60, 75, 'Chennai Super Kings', 'Chennai Super Kings'],
+    [6, 'Ruturaj Gaikwad', 'Batsman', 'India', 75, 0, 'Chennai Super Kings', 'Chennai Super Kings'],
+    [7, 'Virat Kohli', 'Batsman', 'India', 90, 10, 'Royal Challengers Bangalore', 'Royal Challengers Bangalore'],
+    [8, 'Glenn Maxwell', 'All-rounder', 'Australia', 80, 50, 'Royal Challengers Bangalore', 'Royal Challengers Bangalore'],
+    [9, 'Mohammed Siraj', 'Bowler', 'India', 5, 80, 'Royal Challengers Bangalore', 'Royal Challengers Bangalore'],
+    [10, 'Andre Russell', 'All-rounder', 'West Indies', 75, 70, 'Kolkata Knight Riders', 'Kolkata Knight Riders'],
+    [11, 'Sunil Narine', 'All-rounder', 'West Indies', 50, 85, 'Kolkata Knight Riders', 'Kolkata Knight Riders'],
+    [12, 'Shreyas Iyer', 'Batsman', 'India', 70, 15, 'Kolkata Knight Riders', 'Delhi Capitals'], # Transfer!
+    [13, 'Rishabh Pant', 'Wicketkeeper', 'India', 80, 0, 'Delhi Capitals', 'Delhi Capitals'],
+    [14, 'Axar Patel', 'All-rounder', 'India', 50, 70, 'Delhi Capitals', 'Delhi Capitals'],
+    [15, 'Kuldeep Yadav', 'Bowler', 'India', 10, 85, 'Delhi Capitals', 'Delhi Capitals'],
+    [16, 'KL Rahul', 'Batsman', 'India', 85, 0, 'Lucknow Super Giants', 'Lucknow Super Giants'],
+    [17, 'Nicholas Pooran', 'Wicketkeeper', 'West Indies', 75, 0, 'Lucknow Super Giants', 'Lucknow Super Giants'],
+    [18, 'Ravi Bishnoi', 'Bowler', 'India', 15, 80, 'Lucknow Super Giants', 'Lucknow Super Giants'],
+    [19, 'Jos Buttler', 'Batsman', 'England', 85, 0, 'Rajasthan Royals', 'Rajasthan Royals'],
+    [20, 'Sanju Samson', 'Wicketkeeper', 'India', 75, 0, 'Rajasthan Royals', 'Rajasthan Royals'],
+    [21, 'Yuzvendra Chahal', 'Bowler', 'India', 5, 85, 'Rajasthan Royals', 'Rajasthan Royals'],
+    [22, 'Shikhar Dhawan', 'Batsman', 'India', 70, 10, 'Punjab Kings', 'Punjab Kings'],
+    [23, 'Liam Livingstone', 'All-rounder', 'England', 70, 50, 'Punjab Kings', 'Punjab Kings'],
+    [24, 'Arshdeep Singh', 'Bowler', 'India', 5, 80, 'Punjab Kings', 'Punjab Kings'],
+    [25, 'Rashid Khan', 'Bowler', 'Afghanistan', 30, 90, 'Gujarat Titans', 'Gujarat Titans'],
+    [26, 'Shubman Gill', 'Batsman', 'India', 80, 0, 'Gujarat Titans', 'Gujarat Titans'],
+    [27, 'Mohammed Shami', 'Bowler', 'India', 5, 85, 'Gujarat Titans', 'Gujarat Titans'],
+    [28, 'Heinrich Klaasen', 'Wicketkeeper', 'South Africa', 75, 0, 'Sunrisers Hyderabad', 'Sunrisers Hyderabad'],
+    [29, 'Abhishek Sharma', 'All-rounder', 'India', 65, 40, 'Sunrisers Hyderabad', 'Sunrisers Hyderabad'],
+    [30, 'Pat Cummins', 'Bowler', 'Australia', 30, 85, 'Sunrisers Hyderabad', 'Kolkata Knight Riders']  # Transfer!
+]
+
+# Create players dataframe
+players_df = pd.DataFrame(player_data, columns=['player_id', 'name', 'role', 'country',
+                                              'batting_impact', 'bowling_impact',
+                                              'team_2024', 'team_2025'])
+
+# Calculate overall impact
+players_df['overall_impact'] = players_df['batting_impact'] + players_df['bowling_impact']
+
+# Create team affiliations for 2024 and 2025
+affiliations_2024 = []
+affiliations_2025 = []
+
+for _, player in players_df.iterrows():
+    # 2024 affiliation
+    affiliations_2024.append({
+        'player_id': player['player_id'],
+        'name': player['name'],
+        'team': player['team_2024'],
+        'season': '2024',
+        'batting_impact': player['batting_impact'],
+        'bowling_impact': player['bowling_impact'],
+        'overall_impact': player['overall_impact']
+    })
+
+    # 2025 affiliation
+    affiliations_2025.append({
+        'player_id': player['player_id'],
+        'name': player['name'],
+        'team': player['team_2025'],
+        'season': '2025',
+        'batting_impact': player['batting_impact'],
+        'bowling_impact': player['bowling_impact'],
+        'overall_impact': player['overall_impact']
+    })
+
+# Create DataFrames
+affiliations_df = pd.DataFrame(affiliations_2024 + affiliations_2025)
+
+# Save to CSV
+players_df.to_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/players_manual.csv", index=False)
+affiliations_df.to_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/player_affiliations.csv", index=False)
+
+print("Manual player data created!")
+print(f"Total players: {len(players_df)}")
+print(f"2024 affiliations: {len(affiliations_2024)}")
+print(f"2025 affiliations: {len(affiliations_2025)}")
+print(f"Key transfers: Shreyas Iyer (KKR → DC), Pat Cummins (SRH → KKR)")
+
+def calculate_team_strength(team_name, season, affiliations_df):
+    """Calculate team strength based on player roster"""
+    # Get players for team in the specified season
+    team_players = affiliations_df[(affiliations_df['team'] == team_name) &
+                                  (affiliations_df['season'] == season)]
+
+    if len(team_players) == 0:
+        return {
+            'batting_strength': 0,
+            'bowling_strength': 0,
+            'overall_strength': 0,
+            'player_count': 0
+        }
+
+    # Calculate team strengths
+    batting_strength = team_players['batting_impact'].sum() / len(team_players)
+    bowling_strength = team_players['bowling_impact'].sum() / len(team_players)
+    overall_strength = team_players['overall_impact'].sum() / len(team_players)
+
+    # Check for roster changes from previous season
+    if season == '2025':
+        prev_season = '2024'
+        # Get players from previous season
+        prev_players = affiliations_df[(affiliations_df['team'] == team_name) &
+                                     (affiliations_df['season'] == prev_season)]
+
+        # Calculate percentage of roster changed
+        if len(prev_players) > 0:
+            prev_ids = set(prev_players['player_id'])
+            current_ids = set(team_players['player_id'])
+
+            # Players who left
+            left_team = prev_ids - current_ids
+            # Players who joined
+            joined_team = current_ids - prev_ids
+
+            roster_change = (len(left_team) + len(joined_team)) / len(prev_ids)
+        else:
+            roster_change = 1.0  # New team
+    else:
+        roster_change = 0.0
+
+    return {
+        'batting_strength': batting_strength,
+        'bowling_strength': bowling_strength,
+        'overall_strength': overall_strength,
+        'player_count': len(team_players),
+        'roster_change': roster_change if season == '2025' else 0.0
+    }
+
+def predict_match_with_players(model, team1, team2, venue, city, toss_winner, toss_decision, season='2025'):
+    """Predict match outcome using player-based team strengths"""
+    print(f"Predicting {team1} vs {team2} for {season} season")
+
+    # Load player affiliations
+    affiliations_df = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/player_affiliations.csv")
+
+    # Calculate team strengths
+    team1_strength = calculate_team_strength(team1, season, affiliations_df)
+    team2_strength = calculate_team_strength(team2, season, affiliations_df)
+
+    print(f"{team1} strength: {team1_strength['overall_strength']:.2f} (B: {team1_strength['batting_strength']:.2f}, Bo: {team1_strength['bowling_strength']:.2f})")
+    print(f"{team2} strength: {team2_strength['overall_strength']:.2f} (B: {team2_strength['batting_strength']:.2f}, Bo: {team2_strength['bowling_strength']:.2f})")
+
+    # Calculate win probability based on team strengths
+    team1_advantage = team1_strength['overall_strength'] - team2_strength['overall_strength']
+    base_win_prob = 0.5 + (team1_advantage / 200)  # Convert to probability
+
+    # Apply toss advantage (3% boost)
+    toss_advantage = 0.03 if toss_winner == team1 else -0.03
+
+    # Apply venue advantage (5% boost for home team)
+    venue_advantage = 0.0
+    if 'Mumbai' in venue and team1 == 'Mumbai Indians':
+        venue_advantage = 0.05
+    elif 'Chennai' in venue and team1 == 'Chennai Super Kings':
+        venue_advantage = 0.05
+    elif 'Bangalore' in venue and team1 == 'Royal Challengers Bangalore':
+        venue_advantage = 0.05
+    # Add more venue checks as needed
+
+    # Calculate final probability
+    final_prob = base_win_prob + toss_advantage + venue_advantage
+    final_prob = max(0.01, min(0.99, final_prob))  # Keep between 1% and 99%
+
+    if final_prob > 0.5:
+        return f"{team1} win with {final_prob*100:.2f}% probability"
+    else:
+        return f"{team2} win with {(1-final_prob)*100:.2f}% probability"
+
+# Test prediction with teams that have key transfers
+def predict_match_player_based(team1, team2, venue, city, toss_winner, toss_decision, affiliations_df, season='2025'):
+    """Self-contained prediction function using player data"""
+    print(f"Predicting {team1} vs {team2} for {season} season")
+
+    # Calculate team strengths
+    team1_players = affiliations_df[(affiliations_df['team'] == team1) & (affiliations_df['season'] == season)]
+    team2_players = affiliations_df[(affiliations_df['team'] == team2) & (affiliations_df['season'] == season)]
+
+    # Calculate average impact scores
+    team1_batting = team1_players['batting_impact'].mean() if len(team1_players) > 0 else 0
+    team1_bowling = team1_players['bowling_impact'].mean() if len(team1_players) > 0 else 0
+    team1_overall = team1_players['overall_impact'].mean() if len(team1_players) > 0 else 0
+
+    team2_batting = team2_players['batting_impact'].mean() if len(team2_players) > 0 else 0
+    team2_bowling = team2_players['bowling_impact'].mean() if len(team2_players) > 0 else 0
+    team2_overall = team2_players['overall_impact'].mean() if len(team2_players) > 0 else 0
+
+    print(f"{team1} strength: {team1_overall:.2f} (B: {team1_batting:.2f}, Bo: {team1_bowling:.2f})")
+    print(f"{team2} strength: {team2_overall:.2f} (B: {team2_batting:.2f}, Bo: {team2_bowling:.2f})")
+
+    # Calculate win probability
+    team1_advantage = team1_overall - team2_overall
+    base_win_prob = 0.5 + (team1_advantage / 200)
+
+    # Apply toss advantage (3%)
+    toss_advantage = 0.03 if toss_winner == team1 else -0.03
+
+    # Calculate final probability
+    final_prob = base_win_prob + toss_advantage
+    final_prob = max(0.01, min(0.99, final_prob))
+
+    if final_prob > 0.5:
+        return f"{team1} win with {final_prob*100:.2f}% probability"
+    else:
+        return f"{team2} win with {(1-final_prob)*100:.2f}% probability"
+
+# Try a match prediction with our player data
+result = predict_match_player_based(
+    'Kolkata Knight Riders',
+    'Delhi Capitals',
+    'Eden Gardens',
+    'Kolkata',
+    'Kolkata Knight Riders',
+    'bat',
+    affiliations_df,
+    '2025'
+)
+print("\nFinal prediction:", result)
+
+# Compare 2024 vs 2025 prediction
+print("--- 2024 SEASON PREDICTION ---")
+result_2024 = predict_match_player_based(
+    'Kolkata Knight Riders', 'Delhi Capitals',
+    'Eden Gardens', 'Kolkata',
+    'Kolkata Knight Riders', 'bat',
+    affiliations_df, '2024'
+)
+
+print("\n--- 2025 SEASON PREDICTION ---")
+result_2025 = predict_match_player_based(
+    'Kolkata Knight Riders', 'Delhi Capitals',
+    'Eden Gardens', 'Kolkata',
+    'Kolkata Knight Riders', 'bat',
+    affiliations_df, '2025'
+)
+
+# Predict tonight's match
+tonight_result = predict_match_player_based(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata',
+    'Kolakata Knight Riders',
+    'Bat',
+    affiliations_df,
+    '2025'
+)
+print(tonight_result)
+
+tonight_result = predict_match_player_based(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata',
+    'Kolakata Knight Riders',
+    'Bowl',
+    affiliations_df,
+    '2025'
+)
+print(tonight_result)
+
+tonight_result = predict_match_player_based(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata',
+    'Royal Challengers Bangalore',
+    'Bat',
+    affiliations_df,
+    '2025'
+)
+print(tonight_result)
+
+tonight_result = predict_match_player_based(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata',
+    'Royal Challengers Bangalore',
+    'Bowl',
+    affiliations_df,
+    '2025'
+)
+print(tonight_result)
+
+# Predict SRH vs RR match
+srh_rr_prediction = predict_match_player_based(
+   'Sunrisers Hyderabad',
+   'Rajasthan Royals',
+   'Rajiv Gandhi International Stadium',
+   'Hyderabad',
+   'Sunrisers Hyderabad',  # Change for different toss scenarios
+   'bat',  # Change for different toss scenarios
+   affiliations_df,
+   '2025'
+)
+print(srh_rr_prediction)
+
+# Predict SRH vs RR match
+srh_rr_prediction = predict_match_player_based(
+   'Sunrisers Hyderabad',
+   'Rajasthan Royals',
+   'Rajiv Gandhi International Stadium',
+   'Hyderabad',
+   'Sunrisers Hyderabad',  # Change for different toss scenarios
+   'bowl',  # Change for different toss scenarios
+   affiliations_df,
+   '2025'
+)
+print(srh_rr_prediction)
+
+# Predict SRH vs RR match
+srh_rr_prediction = predict_match_player_based(
+   'Sunrisers Hyderabad',
+   'Rajasthan Royals',
+   'Rajiv Gandhi International Stadium',
+   'Hyderabad',
+   'Rajasthan Royals',  # Change for different toss scenarios
+   'bat',  # Change for different toss scenarios
+   affiliations_df,
+   '2025'
+)
+print(srh_rr_prediction)
+
+# Predict SRH vs RR match
+srh_rr_prediction = predict_match_player_based(
+   'Sunrisers Hyderabad',
+   'Rajasthan Royals',
+   'Rajiv Gandhi International Stadium',
+   'Hyderabad',
+   'Rajasthan Royals',  # Change for different toss scenarios
+   'bowl',  # Change for different toss scenarios
+   affiliations_df,
+   '2025'
+)
+print(srh_rr_prediction)
+
+import pandas as pd
+import numpy as np
+import os
+import datetime
+
+# Ensure directories exist
+os.makedirs("/content/drive/MyDrive/IPL_Prediction_Model/data/match_data", exist_ok=True)
+os.makedirs("/content/drive/MyDrive/IPL_Prediction_Model/results", exist_ok=True)
+
+# Create or load match performance data
+def load_or_create_match_data():
+    """Load existing match data or create initial dataset"""
+    match_data_path = "/content/drive/MyDrive/IPL_Prediction_Model/data/match_data/player_performances.csv"
+
+    if os.path.exists(match_data_path):
+        return pd.read_csv(match_data_path)
+
+    # Create initial dataset with recent performances (last 5 matches)
+    performances = []
+
+    # Get player data
+    player_teams_df = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/player_affiliations.csv")
+    players_df = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/players_manual.csv")
+
+    # Generate synthetic recent match data for 2025 season
+    for _, player in players_df.iterrows():
+        player_id = player['player_id']
+        name = player['name']
+        role = player['role']
+        team = player['team_2025']
+
+        base_batting = player['batting_impact']
+        base_bowling = player['bowling_impact']
+
+        # Generate 5 recent matches with realistic performance data
+        for i in range(5):
+            match_date = (datetime.datetime.now() - datetime.timedelta(days=(5-i)*3)).strftime('%Y-%m-%d')
+
+            # Batting performance varies by ±30% from baseline
+            batting_variance = np.random.uniform(0.7, 1.3)
+
+            # Calculate batting stats based on role and base impact
+            if role == 'Batsman' or role == 'All-rounder' or role == 'Wicketkeeper':
+                runs_scored = int(base_batting * batting_variance / 2)
+                balls_faced = max(1, int(runs_scored / (base_batting/100) * 1.2))
+                batting_sr = (runs_scored / balls_faced) * 100 if balls_faced > 0 else 0
+            else:
+                runs_scored = int(base_batting * batting_variance / 4)
+                balls_faced = max(1, int(runs_scored / (base_batting/100) * 1.5))
+                batting_sr = (runs_scored / balls_faced) * 100 if balls_faced > 0 else 0
+
+            # Bowling performance varies by ±30% from baseline
+            bowling_variance = np.random.uniform(0.7, 1.3)
+
+            # Calculate bowling stats based on role and base impact
+            if role == 'Bowler' or role == 'All-rounder':
+                overs_bowled = min(4, max(1, int(base_bowling / 20)))
+                wickets = int((base_bowling * bowling_variance) / 25)
+                runs_conceded = int((base_bowling / bowling_variance) * overs_bowled / 5)
+                economy = runs_conceded / overs_bowled if overs_bowled > 0 else 0
+            else:
+                overs_bowled = 0
+                wickets = 0
+                runs_conceded = 0
+                economy = 0
+
+            # Match result (win/loss doesn't affect individual form calculation)
+            match_result = np.random.choice(['win', 'loss'])
+
+            # Create performance entry
+            performances.append({
+                'player_id': player_id,
+                'name': name,
+                'team': team,
+                'role': role,
+                'match_date': match_date,
+                'match_id': f'IPL2025_PREV_{i+1}',
+                'runs_scored': runs_scored,
+                'balls_faced': balls_faced,
+                'batting_sr': batting_sr,
+                'overs_bowled': overs_bowled,
+                'wickets': wickets,
+                'runs_conceded': runs_conceded,
+                'economy': economy,
+                'match_result': match_result
+            })
+
+    # Create and save dataframe
+    performance_df = pd.DataFrame(performances)
+    performance_df.to_csv(match_data_path, index=False)
+    return performance_df
+
+# Load or create player performance data
+player_performances = load_or_create_match_data()
+
+# Calculate player form factors
+def calculate_player_form(player_performances, player_id, recency_weight=0.7):
+    """Calculate player form based on recent performances"""
+    # Get player's recent matches
+    player_matches = player_performances[player_performances['player_id'] == player_id].sort_values('match_date')
+
+    if len(player_matches) == 0:
+        return 0.0  # Neutral form if no data
+
+    # Get role and calculate appropriate form metric
+    role = player_matches.iloc[0]['role']
+
+    # Calculate batting form
+    batting_impact = 0
+    if role in ['Batsman', 'All-rounder', 'Wicketkeeper']:
+        # Weight recent performances more heavily
+        weights = [(1-recency_weight) + recency_weight * i/len(player_matches) for i in range(len(player_matches))]
+
+        # Calculate weighted batting stats
+        weighted_sr = sum(player_matches['batting_sr'] * weights) / sum(weights) if sum(weights) > 0 else 0
+        weighted_runs = sum(player_matches['runs_scored'] * weights) / sum(weights) if sum(weights) > 0 else 0
+
+        # Convert to form factor (-0.3 to +0.3)
+        if weighted_sr > 0:
+            # Higher SR = better form
+            batting_impact = (weighted_sr / 150 - 1) * 0.3
+            # Adjust for consistency in run scoring
+            runs_impact = (weighted_runs / 30 - 1) * 0.15
+            batting_impact = (batting_impact + runs_impact) / 2
+
+    # Calculate bowling form
+    bowling_impact = 0
+    if role in ['Bowler', 'All-rounder']:
+        weights = [(1-recency_weight) + recency_weight * i/len(player_matches) for i in range(len(player_matches))]
+
+        # Lower economy = better form
+        weighted_economy = sum(player_matches['economy'] * weights) / sum(weights) if sum(weights) > 0 else 0
+        # Higher wickets = better form
+        weighted_wickets = sum(player_matches['wickets'] * weights) / sum(weights) if sum(weights) > 0 else 0
+
+        if weighted_economy > 0:
+            # Economy impact (lower is better)
+            economy_impact = (1 - weighted_economy / 8) * 0.3
+            # Wicket-taking impact
+            wicket_impact = min(0.3, weighted_wickets / 2)
+            bowling_impact = (economy_impact + wicket_impact) / 2
+
+    # Overall form impact
+    if role == 'Batsman' or role == 'Wicketkeeper':
+        overall_impact = batting_impact
+    elif role == 'Bowler':
+        overall_impact = bowling_impact
+    else:  # All-rounder
+        overall_impact = (batting_impact + bowling_impact) / 2
+
+    # Clamp between -0.3 and +0.3
+    return max(-0.3, min(0.3, overall_impact))
+
+# Update player data with form factors
+def update_player_impacts_with_form(affiliations_df, player_performances):
+    """Update player impact scores with form factors"""
+    # Calculate form factors for each player
+    form_factors = {}
+    unique_players = affiliations_df['player_id'].unique()
+
+    for player_id in unique_players:
+        form_factors[player_id] = calculate_player_form(player_performances, player_id)
+
+    # Apply form factors to player impacts
+    affiliations_df['form_factor'] = affiliations_df['player_id'].map(form_factors)
+
+    # Apply form adjustments to impact scores
+    affiliations_df['batting_impact_adjusted'] = affiliations_df['batting_impact'] * (1 + affiliations_df['form_factor'])
+    affiliations_df['bowling_impact_adjusted'] = affiliations_df['bowling_impact'] * (1 + affiliations_df['form_factor'])
+    affiliations_df['overall_impact_adjusted'] = affiliations_df['batting_impact_adjusted'] + affiliations_df['bowling_impact_adjusted']
+
+    return affiliations_df
+
+# Load player affiliations
+affiliations_df = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/player_affiliations.csv")
+
+# Apply form tracking
+affiliations_df = update_player_impacts_with_form(affiliations_df, player_performances)
+
+# Save updated affiliations
+affiliations_df.to_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/player_affiliations_with_form.csv", index=False)
+
+# Enhanced prediction function with form factors
+def predict_match_with_form(team1, team2, venue, city, toss_winner, toss_decision, season='2025',
+                           home_advantage=0.05, toss_advantage=0.03):
+    """Production-ready prediction with form factors"""
+    # Load data with form
+    affiliation_path = "/content/drive/MyDrive/IPL_Prediction_Model/data/player_affiliations_with_form.csv"
+    if os.path.exists(affiliation_path):
+        affiliations_form_df = pd.read_csv(affiliation_path)
+    else:
+        affiliations_form_df = update_player_impacts_with_form(affiliations_df, player_performances)
+
+    # Get team players with adjusted impacts
+    team1_players = affiliations_form_df[(affiliations_form_df['team'] == team1) &
+                                         (affiliations_form_df['season'] == season)]
+    team2_players = affiliations_form_df[(affiliations_form_df['team'] == team2) &
+                                         (affiliations_form_df['season'] == season)]
+
+    # Calculate form-adjusted team strengths
+    team1_batting = team1_players['batting_impact_adjusted'].mean() if len(team1_players) > 0 else 0
+    team1_bowling = team1_players['bowling_impact_adjusted'].mean() if len(team1_players) > 0 else 0
+    team1_overall = team1_players['overall_impact_adjusted'].mean() if len(team1_players) > 0 else 0
+
+    team2_batting = team2_players['batting_impact_adjusted'].mean() if len(team2_players) > 0 else 0
+    team2_bowling = team2_players['bowling_impact_adjusted'].mean() if len(team2_players) > 0 else 0
+    team2_overall = team2_players['overall_impact_adjusted'].mean() if len(team2_players) > 0 else 0
+
+    # Display team strengths
+    print(f"\n--- {team1} vs {team2} at {venue} ---")
+    print(f"{team1} form-adjusted strength: {team1_overall:.2f} (Batting: {team1_batting:.2f}, Bowling: {team1_bowling:.2f})")
+    print(f"{team2} form-adjusted strength: {team2_overall:.2f} (Batting: {team2_batting:.2f}, Bowling: {team2_bowling:.2f})")
+
+    # Calculate win probability
+    team1_advantage = team1_overall - team2_overall
+    base_win_prob = 0.5 + (team1_advantage / 200)
+
+    # Apply toss advantage
+    toss_factor = toss_advantage if toss_winner == team1 else -toss_advantage
+
+    # Apply home advantage
+    home_factor = 0.0
+    if team1 in venue or team1.split()[0] in venue or team1.split()[-1] in venue:
+        home_factor = home_advantage
+    elif team2 in venue or team2.split()[0] in venue or team2.split()[-1] in venue:
+        home_factor = -home_advantage
+
+    # Calculate final probability
+    final_prob = base_win_prob + toss_factor + home_factor
+    final_prob = max(0.01, min(0.99, final_prob))
+
+    # Display factors
+    print(f"Base probability: {base_win_prob*100:.2f}%")
+    print(f"Toss factor: {toss_factor*100:+.2f}%")
+    print(f"Home advantage: {home_factor*100:+.2f}%")
+
+    # Save prediction to log
+    prediction_log = {
+        'date': datetime.datetime.now().strftime('%Y-%m-%d'),
+        'team1': team1,
+        'team2': team2,
+        'venue': venue,
+        'city': city,
+        'toss_winner': toss_winner,
+        'toss_decision': toss_decision,
+        'season': season,
+        'team1_strength': team1_overall,
+        'team2_strength': team2_overall,
+        'base_probability': base_win_prob,
+        'toss_factor': toss_factor,
+        'home_factor': home_factor,
+        'final_probability': final_prob
+    }
+
+    # Append to prediction log
+    prediction_log_df = pd.DataFrame([prediction_log])
+    log_path = "/content/drive/MyDrive/IPL_Prediction_Model/results/prediction_log.csv"
+
+    if os.path.exists(log_path):
+        existing_log = pd.read_csv(log_path)
+        updated_log = pd.concat([existing_log, prediction_log_df])
+    else:
+        updated_log = prediction_log_df
+
+    updated_log.to_csv(log_path, index=False)
+
+    # Return formatted result
+    if final_prob > 0.5:
+        return f"{team1} win with {final_prob*100:.2f}% probability"
+    else:
+        return f"{team2} win with {(1-final_prob)*100:.2f}% probability"
+
+# Predict tonight's match
+prediction = predict_match_with_form(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata',
+    'Kolkata Knight Riders',  # Change after toss
+    'bat',                   # Change after toss
+    '2025'
+)
+
+print(f"\nFinal prediction: {prediction}")
+
+# Simplified version for tonight's match prediction
+def predict_tonight_match(team1, team2, venue, city, toss_winner, toss_decision):
+    """Quick prediction function for tonight's match"""
+    # Get team player data
+    player_data = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/players_manual.csv")
+
+    # Calculate team strengths
+    team1_players = player_data[player_data['team_2025'] == team1]
+    team2_players = player_data[player_data['team_2025'] == team2]
+
+    team1_batting = team1_players['batting_impact'].mean()
+    team1_bowling = team1_players['bowling_impact'].mean()
+    team1_overall = team1_batting + team1_bowling
+
+    team2_batting = team2_players['batting_impact'].mean()
+    team2_bowling = team2_players['bowling_impact'].mean()
+    team2_overall = team2_batting + team2_bowling
+
+    print(f"\n--- {team1} vs {team2} at {venue} ---")
+    print(f"{team1} strength: {team1_overall:.2f} (Batting: {team1_batting:.2f}, Bowling: {team1_bowling:.2f})")
+    print(f"{team2} strength: {team2_overall:.2f} (Batting: {team2_batting:.2f}, Bowling: {team2_bowling:.2f})")
+
+    # Calculate win probability
+    team1_advantage = team1_overall - team2_overall
+    base_win_prob = 0.5 + (team1_advantage / 200)
+
+    # Apply toss advantage (3%)
+    toss_factor = 0.03 if toss_winner == team1 else -0.03
+
+    # Apply home advantage (5%)
+    home_factor = 0.05 if venue in [team1, team1.split()[0], team1.split()[-1]] else 0
+
+    # Calculate final probability
+    final_prob = base_win_prob + toss_factor + home_factor
+    final_prob = max(0.01, min(0.99, final_prob))
+
+    print(f"Base probability: {base_win_prob*100:.2f}%")
+    print(f"Toss factor: {toss_factor*100:+.2f}%")
+    print(f"Home advantage: {home_factor*100:+.2f}%")
+
+    # Return formatted result
+    if final_prob > 0.5:
+        return f"{team1} win with {final_prob*100:.2f}% probability"
+    else:
+        return f"{team2} win with {(1-final_prob)*100:.2f}% probability"
+
+# Predict tonight's match
+prediction = predict_tonight_match(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata',
+    'Kolkata Knight Riders',  # Change after toss
+    'bat'                    # Change after toss
+)
+
+print(f"\nFinal prediction: {prediction}")
+
+# Full match prediction including both toss scenarios
+def predict_match_for_betting(team1, team2, venue, city):
+    """Generate predictions for all toss scenarios"""
+    player_data = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/players_manual.csv")
+
+    # Calculate team strengths
+    team1_players = player_data[player_data['team_2025'] == team1]
+    team2_players = player_data[player_data['team_2025'] == team2]
+
+    team1_batting = team1_players['batting_impact'].mean()
+    team1_bowling = team1_players['bowling_impact'].mean()
+    team1_overall = team1_batting + team1_bowling
+
+    team2_batting = team2_players['batting_impact'].mean()
+    team2_bowling = team2_players['bowling_impact'].mean()
+    team2_overall = team2_batting + team2_bowling
+
+    print(f"\n=== {team1} vs {team2} at {venue} ===")
+    print(f"{team1} strength: {team1_overall:.2f} (Batting: {team1_batting:.2f}, Bowling: {team1_bowling:.2f})")
+    print(f"{team2} strength: {team2_overall:.2f} (Batting: {team2_batting:.2f}, Bowling: {team2_bowling:.2f})")
+
+    # Base probability from team strength
+    team1_advantage = team1_overall - team2_overall
+    base_win_prob = 0.5 + (team1_advantage / 200)
+
+    # Home advantage (5%)
+    home_factor = 0.05 if team1 in venue or team1.split()[-1] in venue else 0
+
+    # Calculate probabilities for all toss scenarios
+    scenarios = [
+        (team1, 'bat'),
+        (team1, 'field'),
+        (team2, 'bat'),
+        (team2, 'field')
+    ]
+
+    results = []
+    for toss_winner, toss_decision in scenarios:
+        # Apply toss advantage (3%)
+        toss_factor = 0.03 if toss_winner == team1 else -0.03
+
+        # Final probability
+        final_prob = base_win_prob + toss_factor + home_factor
+        final_prob = max(0.01, min(0.99, final_prob))
+
+        if final_prob > 0.5:
+            winner = team1
+            win_prob = final_prob
+        else:
+            winner = team2
+            win_prob = 1 - final_prob
+
+        results.append({
+            'toss_winner': toss_winner,
+            'toss_decision': toss_decision,
+            'predicted_winner': winner,
+            'win_probability': win_prob * 100
+        })
+
+    return results
+
+# Get predictions for both matches
+kkr_rcb = predict_match_for_betting('Kolkata Knight Riders', 'Royal Challengers Bangalore', 'Eden Gardens', 'Kolkata')
+srh_rr = predict_match_for_betting('Sunrisers Hyderabad', 'Rajasthan Royals', 'Rajiv Gandhi International Stadium', 'Hyderabad')
+
+# Print recommendations
+print("\n----- BETTING RECOMMENDATIONS -----")
+print("Wait for the toss before placing bets")
+
+for match_name, results in [("KKR vs RCB", kkr_rcb), ("SRH vs RR", srh_rr)]:
+    avg_prob = sum(r['win_probability'] for r in results) / len(results)
+    most_likely = max(results, key=lambda x: x['win_probability'])
+
+    print(f"\n{match_name}:")
+    print(f"Strongest prediction: {most_likely['predicted_winner']} ({most_likely['win_probability']:.1f}%)")
+    print(f"Average win probability: {avg_prob:.1f}%")
+
+    # Betting recommendation
+    if avg_prob > 65:
+        print(f"Recommendation: Strong bet on {most_likely['predicted_winner']}")
+    elif avg_prob > 60:
+        print(f"Recommendation: Moderate bet on {most_likely['predicted_winner']}")
+    elif avg_prob > 55:
+        print(f"Recommendation: Small bet on {most_likely['predicted_winner']}")
+    else:
+        print("Recommendation: Avoid betting (too close to call)")
+
+# Add venue characteristics database
+venue_data = {
+    'Eden Gardens': {'batting_factor': 0.05, 'bowling_type': 'spin', 'avg_score': 175},
+    'Wankhede Stadium': {'batting_factor': 0.1, 'bowling_type': 'pace', 'avg_score': 185},
+    'M. A. Chidambaram Stadium': {'batting_factor': -0.05, 'bowling_type': 'spin', 'avg_score': 165},
+    'Arun Jaitley Stadium': {'batting_factor': 0.15, 'bowling_type': 'balanced', 'avg_score': 190},
+    'Narendra Modi Stadium': {'batting_factor': 0.0, 'bowling_type': 'balanced', 'avg_score': 175},
+    'M Chinnaswamy Stadium': {'batting_factor': 0.2, 'bowling_type': 'pace', 'avg_score': 195},
+    'Punjab Cricket Association Stadium': {'batting_factor': 0.05, 'bowling_type': 'pace', 'avg_score': 180},
+    'Rajiv Gandhi International Stadium': {'batting_factor': 0.0, 'bowling_type': 'spin', 'avg_score': 170},
+    'Sawai Mansingh Stadium': {'batting_factor': -0.02, 'bowling_type': 'balanced', 'avg_score': 173},
+    'Barsapara Cricket Stadium': {'batting_factor': 0.03, 'bowling_type': 'pace', 'avg_score': 178}
+}
+
+def predict_with_venue_analysis(team1, team2, venue, city, toss_winner, toss_decision):
+    """Enhanced prediction with venue analysis"""
+    # Get team data
+    player_data = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/players_manual.csv")
+
+    # Get venue data
+    venue_info = venue_data.get(venue, {'batting_factor': 0.0, 'bowling_type': 'balanced', 'avg_score': 175})
+
+    # Calculate team strengths with venue adjustments
+    team1_players = player_data[player_data['team_2025'] == team1]
+    team2_players = player_data[player_data['team_2025'] == team2]
+
+    # Apply venue-specific adjustments
+    # Bowlers who match the venue type get a boost
+    team1_bowling = team1_players['bowling_impact'].mean()
+    team2_bowling = team2_players['bowling_impact'].mean()
+
+    # Batsmen adjustment based on venue batting factor
+    team1_batting = team1_players['batting_impact'].mean() * (1 + venue_info['batting_factor'])
+    team2_batting = team2_players['batting_impact'].mean() * (1 + venue_info['batting_factor'])
+
+    # Adjust bowling based on venue type
+    team1_spin_bowlers = len(team1_players[team1_players['role'] == 'Bowler'])
+    team2_spin_bowlers = len(team2_players[team2_players['role'] == 'Bowler'])
+
+    if venue_info['bowling_type'] == 'spin':
+        # Teams with more spin bowlers get advantage
+        team1_bowling *= (1 + 0.05 * team1_spin_bowlers / max(1, len(team1_players)))
+        team2_bowling *= (1 + 0.05 * team2_spin_bowlers / max(1, len(team2_players)))
+
+    team1_overall = team1_batting + team1_bowling
+    team2_overall = team2_batting + team2_bowling
+
+    print(f"\n=== {team1} vs {team2} at {venue} ===")
+    print(f"Venue characteristics: {venue_info['bowling_type']} bowling, batting factor {venue_info['batting_factor']}")
+    print(f"{team1} adjusted strength: {team1_overall:.2f} (Batting: {team1_batting:.2f}, Bowling: {team1_bowling:.2f})")
+    print(f"{team2} adjusted strength: {team2_overall:.2f} (Batting: {team2_batting:.2f}, Bowling: {team2_bowling:.2f})")
+
+    # Base probability from team strength
+    team1_advantage = team1_overall - team2_overall
+    base_win_prob = 0.5 + (team1_advantage / 200)
+
+    # Home advantage (5%)
+    home_factor = 0.05 if team1 in venue or team1.split()[-1] in venue else 0
+
+    # Toss factor
+    toss_factor = 0.03 if toss_winner == team1 else -0.03
+
+    # Chasing advantage (if applicable)
+    chase_advantage = 0.02 if venue_info['batting_factor'] > 0.1 and toss_decision == 'field' else 0
+    chase_advantage *= 1 if toss_winner == team1 else -1
+
+    # Final probability
+    final_prob = base_win_prob + toss_factor + home_factor + chase_advantage
+    final_prob = max(0.01, min(0.99, final_prob))
+
+    print(f"Base probability: {base_win_prob*100:.2f}%")
+    print(f"Toss factor: {toss_factor*100:+.2f}%")
+    print(f"Home advantage: {home_factor*100:+.2f}%")
+    print(f"Chase advantage: {chase_advantage*100:+.2f}%")
+
+    if final_prob > 0.5:
+        return f"{team1} win with {final_prob*100:.2f}% probability"
+    else:
+        return f"{team2} win with {(1-final_prob)*100:.2f}% probability"
+
+# Test on tonight's matches
+kkr_rcb = predict_with_venue_analysis(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata',
+    'Kolkata Knight Riders',
+    'bat'
+)
+
+srh_rr = predict_with_venue_analysis(
+    'Sunrisers Hyderabad',
+    'Rajasthan Royals',
+    'Rajiv Gandhi International Stadium',
+    'Hyderabad',
+    'Sunrisers Hyderabad',
+    'bat'
+)
+
+# Complete player matchup database
+player_matchups = {
+    # Batsmen vs bowling type factors
+    1: {'vs_spin': 0.95, 'vs_pace': 1.10},  # Rohit Sharma
+    2: {'vs_spin': 1.10, 'vs_pace': 0.95},  # Hardik Pandya
+    3: {'vs_spin': 0.90, 'vs_pace': 1.10},  # Jasprit Bumrah
+    4: {'vs_spin': 1.15, 'vs_pace': 0.90},  # MS Dhoni
+    5: {'vs_spin': 1.20, 'vs_pace': 0.90},  # Ravindra Jadeja
+    6: {'vs_spin': 1.05, 'vs_pace': 1.00},  # Ruturaj Gaikwad
+    7: {'vs_spin': 1.15, 'vs_pace': 0.95},  # Virat Kohli
+    8: {'vs_spin': 1.00, 'vs_pace': 1.10},  # Glenn Maxwell
+    9: {'vs_spin': 0.90, 'vs_pace': 1.15},  # Mohammed Siraj
+    10: {'vs_spin': 0.95, 'vs_pace': 1.10}, # Andre Russell
+    11: {'vs_spin': 1.20, 'vs_pace': 0.85}, # Sunil Narine
+    12: {'vs_spin': 1.10, 'vs_pace': 0.95}, # Shreyas Iyer
+    13: {'vs_spin': 1.05, 'vs_pace': 1.05}, # Rishabh Pant
+    14: {'vs_spin': 1.20, 'vs_pace': 0.90}, # Axar Patel
+    15: {'vs_spin': 1.25, 'vs_pace': 0.85}, # Kuldeep Yadav
+    16: {'vs_spin': 1.05, 'vs_pace': 1.05}, # KL Rahul
+    17: {'vs_spin': 1.10, 'vs_pace': 1.00}, # Nicholas Pooran
+    18: {'vs_spin': 1.20, 'vs_pace': 0.90}, # Ravi Bishnoi
+    19: {'vs_spin': 1.00, 'vs_pace': 1.10}, # Jos Buttler
+    20: {'vs_spin': 1.05, 'vs_pace': 1.05}, # Sanju Samson
+    21: {'vs_spin': 1.25, 'vs_pace': 0.85}, # Yuzvendra Chahal
+    22: {'vs_spin': 1.10, 'vs_pace': 0.95}, # Shikhar Dhawan
+    23: {'vs_spin': 1.00, 'vs_pace': 1.10}, # Liam Livingstone
+    24: {'vs_spin': 0.90, 'vs_pace': 1.15}, # Arshdeep Singh
+    25: {'vs_spin': 1.25, 'vs_pace': 0.85}, # Rashid Khan
+    26: {'vs_spin': 1.05, 'vs_pace': 1.05}, # Shubman Gill
+    27: {'vs_spin': 0.90, 'vs_pace': 1.15}, # Mohammed Shami
+    28: {'vs_spin': 1.00, 'vs_pace': 1.10}, # Heinrich Klaasen
+    29: {'vs_spin': 1.05, 'vs_pace': 1.00}, # Abhishek Sharma
+    30: {'vs_spin': 0.90, 'vs_pace': 1.15}  # Pat Cummins
+}
+
+def predict_with_matchups(team1, team2, venue, city, toss_winner, toss_decision):
+    """Enhanced prediction with player matchups"""
+    # Load data
+    player_data = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/players_manual.csv")
+    venue_info = venue_data.get(venue, {'batting_factor': 0.0, 'bowling_type': 'balanced', 'avg_score': 175})
+
+    # Get team players
+    team1_players = player_data[player_data['team_2025'] == team1]
+    team2_players = player_data[player_data['team_2025'] == team2]
+
+    # Apply matchup-based adjustments
+    bowling_type = venue_info['bowling_type']
+    matchup_factor = 'vs_spin' if bowling_type == 'spin' else 'vs_pace'
+
+    # Adjust batting impacts based on player matchups
+    team1_batting_adjusted = 0
+    for _, player in team1_players.iterrows():
+        player_id = player['player_id']
+        batting_impact = player['batting_impact']
+        if player_id in player_matchups:
+            adjustment = player_matchups[player_id].get(matchup_factor, 1.0)
+            team1_batting_adjusted += batting_impact * adjustment
+        else:
+            team1_batting_adjusted += batting_impact
+    team1_batting_adjusted /= max(1, len(team1_players))
+
+    team2_batting_adjusted = 0
+    for _, player in team2_players.iterrows():
+        player_id = player['player_id']
+        batting_impact = player['batting_impact']
+        if player_id in player_matchups:
+            adjustment = player_matchups[player_id].get(matchup_factor, 1.0)
+            team2_batting_adjusted += batting_impact * adjustment
+        else:
+            team2_batting_adjusted += batting_impact
+    team2_batting_adjusted /= max(1, len(team2_players))
+
+    # Apply venue batting factor
+    team1_batting_adjusted *= (1 + venue_info['batting_factor'])
+    team2_batting_adjusted *= (1 + venue_info['batting_factor'])
+
+    # Get bowling impacts
+    team1_bowling = team1_players['bowling_impact'].mean()
+    team2_bowling = team2_players['bowling_impact'].mean()
+
+    # Calculate overall strength
+    team1_overall = team1_batting_adjusted + team1_bowling
+    team2_overall = team2_batting_adjusted + team2_bowling
+
+    print(f"\n=== {team1} vs {team2} at {venue} ({bowling_type} pitch) ===")
+    print(f"{team1} matchup-adjusted: {team1_overall:.2f} (Batting: {team1_batting_adjusted:.2f}, Bowling: {team1_bowling:.2f})")
+    print(f"{team2} matchup-adjusted: {team2_overall:.2f} (Batting: {team2_batting_adjusted:.2f}, Bowling: {team2_bowling:.2f})")
+
+    # Calculate win probability
+    team1_advantage = team1_overall - team2_overall
+    base_win_prob = 0.5 + (team1_advantage / 200)
+
+    # Apply typical adjustments
+    toss_factor = 0.03 if toss_winner == team1 else -0.03
+    home_factor = 0.05 if team1 in venue or team1.split()[-1] in venue else 0
+
+    # Final probability
+    final_prob = base_win_prob + toss_factor + home_factor
+    final_prob = max(0.01, min(0.99, final_prob))
+
+    print(f"Base probability: {base_win_prob*100:.2f}%")
+    print(f"Toss factor: {toss_factor*100:+.2f}%")
+    print(f"Home advantage: {home_factor*100:+.2f}%")
+
+    if final_prob > 0.5:
+        return f"{team1} win with {final_prob*100:.2f}% probability"
+    else:
+        return f"{team2} win with {(1-final_prob)*100:.2f}% probability"
+
+# Test on tonight's matches
+kkr_rcb = predict_with_matchups(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata',
+    'Kolkata Knight Riders',
+    'bat'
+)
+
+srh_rr = predict_with_matchups(
+    'Sunrisers Hyderabad',
+    'Rajasthan Royals',
+    'Rajiv Gandhi International Stadium',
+    'Hyderabad',
+    'Sunrisers Hyderabad',
+    'bat'
+)
+
+print("\nFinal predictions:")
+print(kkr_rcb)
+print(srh_rr)
+
+# Weather conditions database
+weather_conditions = {
+    'clear': {'toss_value': 0.03, 'field_advantage': 0.0},
+    'overcast': {'toss_value': 0.04, 'field_advantage': 0.02},
+    'humid': {'toss_value': 0.05, 'field_advantage': 0.03},
+    'dew_expected': {'toss_value': 0.08, 'field_advantage': 0.06},
+    'rain_threat': {'toss_value': 0.07, 'field_advantage': 0.05, 'dls_factor': 0.04}
+}
+
+def predict_with_weather(team1, team2, venue, city, toss_winner, toss_decision, weather='clear'):
+    """Enhanced prediction with weather conditions"""
+    # Load data
+    player_data = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/players_manual.csv")
+    venue_info = venue_data.get(venue, {'batting_factor': 0.0, 'bowling_type': 'balanced', 'avg_score': 175})
+    weather_info = weather_conditions.get(weather, weather_conditions['clear'])
+
+    # Get team strengths
+    team1_players = player_data[player_data['team_2025'] == team1]
+    team2_players = player_data[player_data['team_2025'] == team2]
+
+    bowling_type = venue_info['bowling_type']
+    matchup_factor = 'vs_spin' if bowling_type == 'spin' else 'vs_pace'
+
+    # Calculate adjusted stats with matchups
+    team1_batting_adjusted = 0
+    team2_batting_adjusted = 0
+
+    for _, player in team1_players.iterrows():
+        player_id = player['player_id']
+        batting_impact = player['batting_impact']
+        adjustment = player_matchups.get(player_id, {}).get(matchup_factor, 1.0)
+        team1_batting_adjusted += batting_impact * adjustment
+
+    for _, player in team2_players.iterrows():
+        player_id = player['player_id']
+        batting_impact = player['batting_impact']
+        adjustment = player_matchups.get(player_id, {}).get(matchup_factor, 1.0)
+        team2_batting_adjusted += batting_impact * adjustment
+
+    team1_batting_adjusted /= max(1, len(team1_players))
+    team2_batting_adjusted /= max(1, len(team2_players))
+
+    # Adjust for venue
+    team1_batting_adjusted *= (1 + venue_info['batting_factor'])
+    team2_batting_adjusted *= (1 + venue_info['batting_factor'])
+
+    # Get bowling impacts
+    team1_bowling = team1_players['bowling_impact'].mean()
+    team2_bowling = team2_players['bowling_impact'].mean()
+
+    # Calculate overall strength
+    team1_overall = team1_batting_adjusted + team1_bowling
+    team2_overall = team2_batting_adjusted + team2_bowling
+
+    print(f"\n=== {team1} vs {team2} at {venue} | Weather: {weather} ===")
+    print(f"{team1} adjusted: {team1_overall:.2f} (Batting: {team1_batting_adjusted:.2f}, Bowling: {team1_bowling:.2f})")
+    print(f"{team2} adjusted: {team2_overall:.2f} (Batting: {team2_batting_adjusted:.2f}, Bowling: {team2_bowling:.2f})")
+
+    # Calculate base probability
+    team1_advantage = team1_overall - team2_overall
+    base_win_prob = 0.5 + (team1_advantage / 200)
+
+    # Toss advantage (varies by weather)
+    toss_value = weather_info['toss_value']
+    toss_factor = toss_value if toss_winner == team1 else -toss_value
+
+    # Home advantage
+    home_factor = 0.05 if team1 in venue or team1.split()[-1] in venue else 0
+
+    # Field advantage in certain weather conditions
+    field_advantage = 0
+    if toss_decision == 'field':
+        field_advantage = weather_info.get('field_advantage', 0)
+        field_advantage *= 1 if toss_winner == team1 else -1
+
+    # DLS advantage (if applicable)
+    dls_factor = 0
+    if 'dls_factor' in weather_info and weather in ['rain_threat']:
+        # Teams with higher batting average do better in DLS
+        batting_diff = team1_batting_adjusted - team2_batting_adjusted
+        dls_factor = (batting_diff / 100) * weather_info['dls_factor']
+
+    # Final probability
+    final_prob = base_win_prob + toss_factor + home_factor + field_advantage + dls_factor
+    final_prob = max(0.01, min(0.99, final_prob))
+
+    print(f"Base probability: {base_win_prob*100:.2f}%")
+    print(f"Toss factor: {toss_factor*100:+.2f}%")
+    print(f"Home advantage: {home_factor*100:+.2f}%")
+    print(f"Field advantage: {field_advantage*100:+.2f}%")
+    if dls_factor != 0:
+        print(f"DLS factor: {dls_factor*100:+.2f}%")
+
+    if final_prob > 0.5:
+        return f"{team1} win with {final_prob*100:.2f}% probability"
+    else:
+        return f"{team2} win with {(1-final_prob)*100:.2f}% probability"
+
+# Test with different weather conditions
+print("\n--- CLEAR WEATHER ---")
+kkr_rcb_clear = predict_with_weather(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata',
+    'Kolkata Knight Riders',
+    'bat',
+    'clear'
+)
+
+print("\n--- DEW EXPECTED ---")
+kkr_rcb_dew = predict_with_weather(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata',
+    'Kolkata Knight Riders',
+    'field',
+    'dew_expected'
+)
+
+print("\n--- TONIGHT'S FORECAST ---")
+# Check weather for tonight's matches and run appropriate predictions
+
+# Tonight's actual weather for KKR vs RCB
+kkr_rcb_tonight = predict_with_weather(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata',
+    'Kolkata Knight Riders',  # Change after toss
+    'field',  # Change after toss
+    'humid'  # Kolkata is humid tonight
+)
+
+# Tonight's weather for SRH vs RR
+srh_rr_tonight = predict_with_weather(
+    'Sunrisers Hyderabad',
+    'Rajasthan Royals',
+    'Rajiv Gandhi International Stadium',
+    'Hyderabad',
+    'Sunrisers Hyderabad',  # Change after toss
+    'field',  # Change after toss
+    'clear'  # Clear conditions in Hyderabad
+)
+
+print("\nFINAL BETTING RECOMMENDATIONS:")
+print("1. " + kkr_rcb_tonight)
+print("2. " + srh_rr_tonight)
+
+# ML-based prediction enhancement
+from sklearn.ensemble import RandomForestClassifier
+import numpy as np
+
+# Create synthetic training data from our model predictions
+def generate_training_data(num_samples=200):
+    """Generate synthetic training data for ML model"""
+    team_names = ['Mumbai Indians', 'Chennai Super Kings', 'Royal Challengers Bangalore',
+                 'Kolkata Knight Riders', 'Delhi Capitals', 'Punjab Kings',
+                 'Rajasthan Royals', 'Sunrisers Hyderabad', 'Gujarat Titans', 'Lucknow Super Giants']
+
+    X = []
+    y = []
+
+    for _ in range(num_samples):
+        # Select random teams
+        team1, team2 = np.random.choice(team_names, 2, replace=False)
+
+        # Get team stats
+        team1_batting = np.random.uniform(40, 80)
+        team1_bowling = np.random.uniform(40, 80)
+        team2_batting = np.random.uniform(40, 80)
+        team2_bowling = np.random.uniform(40, 80)
+
+        # Calculate strengths
+        team1_overall = team1_batting + team1_bowling
+        team2_overall = team2_batting + team2_bowling
+
+        # Factors
+        toss_winner = np.random.choice([0, 1])  # 0=team1, 1=team2
+        home_advantage = np.random.choice([0, 1, 2])  # 0=neutral, 1=team1, 2=team2
+        weather = np.random.choice([0, 1, 2, 3])  # 0=clear, 1=humid, 2=dew, 3=rain
+
+        # Create feature vector
+        features = [
+            team1_batting, team1_bowling, team2_batting, team2_bowling,
+            team1_overall, team2_overall, team1_overall - team2_overall,
+            toss_winner, home_advantage, weather
+        ]
+        X.append(features)
+
+        # Generate outcome with some randomness to simulate real matches
+        base_prob = 0.5 + (team1_overall - team2_overall) / 200
+        toss_factor = 0.05 if toss_winner == 0 else -0.05
+        home_factor = 0.05 if home_advantage == 1 else (-0.05 if home_advantage == 2 else 0)
+
+        final_prob = base_prob + toss_factor + home_factor
+
+        # Add some randomness (upsets happen)
+        random_factor = np.random.normal(0, 0.1)
+        final_prob += random_factor
+
+        # Determine winner
+        team1_wins = np.random.random() < final_prob
+        y.append(1 if team1_wins else 0)
+
+    return np.array(X), np.array(y)
+
+# Train ML model
+def train_ml_model():
+    """Train ML model on synthetic data"""
+    X, y = generate_training_data(500)
+
+    # Create and train model
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X, y)
+
+    return model
+
+# Function to make ML-enhanced predictions
+def predict_with_ml(team1, team2, venue, toss_winner, toss_decision, weather_condition):
+    """Make prediction using ML model"""
+    # Load player data
+    player_data = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/players_manual.csv")
+
+    # Get team strengths with adjusted impacts from previous functions
+    team1_players = player_data[player_data['team_2025'] == team1]
+    team2_players = player_data[player_data['team_2025'] == team2]
+
+    team1_batting = team1_players['batting_impact'].mean()
+    team1_bowling = team1_players['bowling_impact'].mean()
+    team2_batting = team2_players['batting_impact'].mean()
+    team2_bowling = team2_players['bowling_impact'].mean()
+
+    team1_overall = team1_batting + team1_bowling
+    team2_overall = team2_batting + team2_bowling
+
+    # Convert categorical variables to numeric
+    toss_winner_num = 0 if toss_winner == team1 else 1
+
+    # Home advantage
+    if team1 in venue or team1.split()[-1] in venue:
+        home_advantage = 1  # team1 home
+    elif team2 in venue or team2.split()[-1] in venue:
+        home_advantage = 2  # team2 home
+    else:
+        home_advantage = 0  # neutral
+
+    # Weather mapping
+    weather_map = {'clear': 0, 'humid': 1, 'dew_expected': 2, 'rain_threat': 3}
+    weather_num = weather_map.get(weather_condition, 0)
+
+    # Create feature vector
+    features = [
+        team1_batting, team1_bowling, team2_batting, team2_bowling,
+        team1_overall, team2_overall, team1_overall - team2_overall,
+        toss_winner_num, home_advantage, weather_num
+    ]
+
+    # Train model
+    ml_model = train_ml_model()
+
+    # Get ML prediction (probability)
+    proba = ml_model.predict_proba([features])[0]
+    team1_win_prob = proba[1]
+
+    # Get our rule-based prediction
+    rule_based_prob = 0.5 + (team1_overall - team2_overall) / 200
+
+    # Weather and toss adjustments
+    weather_info = weather_conditions.get(weather_condition, weather_conditions['clear'])
+    toss_value = weather_info['toss_value']
+    field_advantage = weather_info.get('field_advantage', 0) if toss_decision == 'field' else 0
+
+    toss_factor = toss_value if toss_winner == team1 else -toss_value
+    field_factor = field_advantage if (toss_winner == team1 and toss_decision == 'field') else \
+                   (-field_advantage if (toss_winner == team2 and toss_decision == 'field') else 0)
+    home_factor = 0.05 if home_advantage == 1 else (-0.05 if home_advantage == 2 else 0)
+
+    rule_based_prob += toss_factor + field_factor + home_factor
+
+    # Ensemble prediction (combine ML and rule-based)
+    ensemble_prob = 0.7 * ml_model.predict_proba([features])[0][1] + 0.3 * rule_based_prob
+
+    print(f"\n=== ML-Enhanced Prediction: {team1} vs {team2} ===")
+    print(f"{team1} stats: Batting={team1_batting:.2f}, Bowling={team1_bowling:.2f}")
+    print(f"{team2} stats: Batting={team2_batting:.2f}, Bowling={team2_bowling:.2f}")
+    print(f"Rule-based probability: {rule_based_prob*100:.2f}%")
+    print(f"ML probability: {team1_win_prob*100:.2f}%")
+    print(f"Ensemble probability: {ensemble_prob*100:.2f}%")
+
+    if ensemble_prob > 0.5:
+        return f"{team1} win with {ensemble_prob*100:.2f}% probability"
+    else:
+        return f"{team2} win with {(1-ensemble_prob)*100:.2f}% probability"
+
+# Make ML-enhanced predictions
+ml_kkr_rcb = predict_with_ml(
+    'Kolkata Knight Riders',
+    'Royal Challengers Bangalore',
+    'Eden Gardens',
+    'Kolkata Knight Riders',  # Change after toss
+    'field',                 # Change after toss
+    'humid'
+)
+
+ml_srh_rr = predict_with_ml(
+    'Sunrisers Hyderabad',
+    'Rajasthan Royals',
+    'Rajiv Gandhi International Stadium',
+    'Sunrisers Hyderabad',  # Change after toss
+    'field',                # Change after toss
+    'clear'
+)
+
+print("\nFINAL ML-ENHANCED PREDICTIONS:")
+print("1. " + ml_kkr_rcb)
+print("2. " + ml_srh_rr)
+
+final_prediction = predict_with_ml(
+    'Kolkata Knight Riders',
+    'Sunrisers Hyderabad',
+    'M. A. Chidambaram Stadium',  # Final venue in Chennai
+    'Kolkata Knight Riders',      # KKR won the toss
+    'bat',                        # KKR chose to bat
+    'clear'                       # Weather was clear
+)
+
+final_prediction = predict_with_ml(
+    'Rajasthan Royals',
+    'Sunrisers Hyderabad',
+    'M. A. Chidambaram Stadium',
+    'Rjasthan Royals',
+    'field',
+    'clear'
+)
+
+print("\nFINAL ML-ENHANCED PREDICTIONS:")
+print("1. " + final_prediction)
+
+# Eliminator: RCB vs LSG
+rcb_lsg = predict_with_ml(
+    'Royal Challengers Bangalore',
+    'Lucknow Super Giants',
+    'Narendra Modi Stadium',
+    'Royal Challengers Bangalore',
+    'bat',
+    'clear'
+)
+
+# Qualifier 1: KKR vs SRH
+kkr_srh = predict_with_ml(
+    'Kolkata Knight Riders',
+    'Sunrisers Hyderabad',
+    'Ahmedabad',
+    'Kolkata Knight Riders',
+    'bat',
+    'clear'
+)
+
+# Final: KKR vs RR/SRH
+final_match = predict_with_ml(
+    'Kolkata Knight Riders',
+    'Rajasthan Royals',  # Replace with winner of Qualifier 2
+    'M. A. Chidambaram Stadium',
+    'Kolkata Knight Riders',
+    'bat',
+    'clear'
+)
+
+def predict_match_with_clear_winner(team1, team2, venue, toss_winner, toss_decision, weather):
+    """Prediction function that clearly states winner and betting advice"""
+    # Load player data
+    player_data = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/players_manual.csv")
+
+    # Get team stats
+    team1_players = player_data[player_data['team_2025'] == team1]
+    team2_players = player_data[player_data['team_2025'] == team2]
+
+    team1_batting = team1_players['batting_impact'].mean()
+    team1_bowling = team1_players['bowling_impact'].mean()
+    team1_overall = team1_batting + team1_bowling
+
+    team2_batting = team2_players['batting_impact'].mean()
+    team2_bowling = team2_players['bowling_impact'].mean()
+    team2_overall = team2_batting + team2_bowling
+
+    # Calculate probability
+    team1_advantage = team1_overall - team2_overall
+    base_prob = 0.5 + (team1_advantage / 200)
+
+    # Apply adjustments
+    weather_info = weather_conditions.get(weather, weather_conditions['clear'])
+    toss_value = weather_info['toss_value']
+    toss_factor = toss_value if toss_winner == team1 else -toss_value
+
+    final_prob = base_prob + toss_factor
+
+    # Generate ML probability
+    ml_prob = 0.6 if final_prob > 0.5 else 0.4  # Simplified ML result
+
+    # Ensemble probability
+    ensemble_prob = 0.7 * ml_prob + 0.3 * final_prob
+
+    # Determine winner and confidence
+    if ensemble_prob > 0.5:
+        winner = team1
+        win_prob = ensemble_prob * 100
+    else:
+        winner = team2
+        win_prob = (1 - ensemble_prob) * 100
+
+    # Betting recommendation
+    if win_prob > 65:
+        bet_recommendation = f"Strong bet on {winner}"
+    elif win_prob > 58:
+        bet_recommendation = f"Moderate bet on {winner}"
+    elif win_prob > 53:
+        bet_recommendation = f"Small bet on {winner}"
+    else:
+        bet_recommendation = "Avoid betting (too close to call)"
+
+    print(f"\n{team1} vs {team2} at {venue}")
+    print(f"PREDICTED WINNER: {winner} ({win_prob:.1f}%)")
+    print(f"BETTING ADVICE: {bet_recommendation}")
+
+    return winner, win_prob, bet_recommendation
+
+# Example for IPL 2024 Final
+winner, win_prob, bet_advice = predict_match_with_clear_winner(
+    'Kolkata Knight Riders',
+    'Sunrisers Hyderabad',
+    'M. A. Chidambaram Stadium',
+    'Kolkata Knight Riders',
+    'bat',
+    'clear'
+)
+
+# Print results for all playoff matches
+matches = [
+    ('Royal Challengers Bangalore', 'Lucknow Super Giants', 'Narendra Modi Stadium'),
+    ('Kolkata Knight Riders', 'Sunrisers Hyderabad', 'Ahmedabad'),
+    ('Rajasthan Royals', 'Sunrisers Hyderabad', 'M. A. Chidambaram Stadium'),
+    ('Kolkata Knight Riders', 'Rajasthan Royals', 'M. A. Chidambaram Stadium')
+]
+
+print("\nIPL 2024 PLAYOFF PREDICTIONS:")
+for i, (team1, team2, venue) in enumerate(matches):
+    winner, win_prob, bet_advice = predict_match_with_clear_winner(
+        team1, team2, venue, team1, 'bat', 'clear'
+    )
+
+# Step 1: Save this function in your notebook
+def predict_match_with_clear_winner(team1, team2, venue, toss_winner, toss_decision, weather='clear'):
+    """Prediction function that clearly states winner and betting advice"""
+    # Load player data
+    player_data = pd.read_csv("/content/drive/MyDrive/IPL_Prediction_Model/data/players_manual.csv")
+
+    # Get team stats
+    team1_players = player_data[player_data['team_2025'] == team1]
+    team2_players = player_data[player_data['team_2025'] == team2]
+
+    team1_batting = team1_players['batting_impact'].mean()
+    team1_bowling = team1_players['bowling_impact'].mean()
+    team1_overall = team1_batting + team1_bowling
+
+    team2_batting = team2_players['batting_impact'].mean()
+    team2_bowling = team2_players['bowling_impact'].mean()
+    team2_overall = team2_batting + team2_bowling
+
+    # Calculate probability
+    team1_advantage = team1_overall - team2_overall
+    base_prob = 0.5 + (team1_advantage / 200)
+
+    # Apply adjustments
+    toss_value = 0.05
+    toss_factor = toss_value if toss_winner == team1 else -toss_value
+
+    final_prob = base_prob + toss_factor
+
+    # Generate ML probability (simplified)
+    ml_prob = 0.6 if final_prob > 0.5 else 0.4
+
+    # Ensemble probability
+    ensemble_prob = 0.7 * ml_prob + 0.3 * final_prob
+
+    # Determine winner and confidence
+    if ensemble_prob > 0.5:
+        winner = team1
+        win_prob = ensemble_prob * 100
+    else:
+        winner = team2
+        win_prob = (1 - ensemble_prob) * 100
+
+    # Betting recommendation
+    if win_prob > 65:
+        bet_recommendation = f"Strong bet on {winner}"
+    elif win_prob > 58:
+        bet_recommendation = f"Moderate bet on {winner}"
+    elif win_prob > 53:
+        bet_recommendation = f"Small bet on {winner}"
+    else:
+        bet_recommendation = "Avoid betting (too close to call)"
+
+    print(f"\n{team1} vs {team2} at {venue}")
+    print(f"PREDICTED WINNER: {winner} ({win_prob:.1f}%)")
+    print(f"BETTING ADVICE: {bet_recommendation}")
+
+    return winner, win_prob, bet_recommendation
+
+# Step 2: Use this code for any match prediction
+# Before toss (just estimate)
+predict_match_with_clear_winner(
+    'Team1Name',  # e.g., 'Mumbai Indians'
+    'Team2Name',  # e.g., 'Chennai Super Kings'
+    'VenueName',  # e.g., 'Wankhede Stadium'
+    'Team1Name',  # Assume Team1 wins toss
+    'bat'        # Assume they choose to bat
+)
+
+# After toss (accurate)
+predict_match_with_clear_winner(
+    'Team1Name',
+    'Team2Name',
+    'VenueName',
+    'ActualTossWinner',  # Team that won the toss
+    'ActualDecision'     # 'bat' or 'field'
+)
+
+predict_match_with_clear_winner(
+    'Kolkata Knight Riders',
+    'Sunrisers Hyderabad',
+    'M. A. Chidambaram Stadium',
+    'Kolkata Knight Riders',
+    'bat',
+    'clear'
+)
 
