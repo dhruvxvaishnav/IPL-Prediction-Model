@@ -1,13 +1,14 @@
-# JSON Maker UDF Development Guide
+# Generic JSON UDF Development Guide
 
-This guide walks through creating a Java UDF that generates JSON output from input parameters.
+This guide walks through creating a Java UDF for StarRocks that converts string key-value pairs into nested JSON.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Environment Setup](#environment-setup)
 - [Project Setup](#project-setup)
-- [JSON UDF Implementation](#json-udf-implementation)
-- [Build and Deploy](#build-and-deploy)
+- [UDF Implementation](#udf-implementation)
+- [Build Process](#build-process)
+- [Deployment](#deployment)
 - [Testing](#testing)
 
 ## Prerequisites
@@ -36,287 +37,267 @@ choco install maven -y
 
 ### Create Project Structure
 ```cmd
-mkdir your-json-udf
-cd your-json-udf
-mvn archetype:generate -DgroupId=com.example -DartifactId=json-udf -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+mkdir your-starrocks-udf
+cd your-starrocks-udf
+mvn archetype:generate -DgroupId=com.example -DartifactId=udf -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+```
+
+Your project structure will look like:
+```
+your-starrocks-udf/
+└── udf/
+    ├── pom.xml
+    ├── src/
+    │   ├── main/
+    │   │   ├── java/
+    │   │   │   └── com/
+    │   │   │       └── example/
+    │   │   │           └── App.java
+    │   │   └── resources/
+    └── target/    (created after building)
 ```
 
 ### Configure POM.xml
-Navigate to `json-udf/pom.xml` and replace with:
+Replace the contents of `udf/pom.xml` with:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+<artifactId>udf</artifactId>
+<version>1.0-SNAPSHOT</version>
 
-  <groupId>com.example</groupId>
-  <artifactId>json-udf</artifactId>
-  <version>1.0-SNAPSHOT</version>
+    <properties>
+<maven.compiler.source>8</maven.compiler.source>
+<maven.compiler.target>8</maven.compiler.target>
+</properties>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
-
-  <dependencies>
-    <!-- StarRocks UDF SDK -->
+ <dependencies>
     <dependency>
-      <groupId>com.starrocks</groupId>
-      <artifactId>starrocks-udf-sdk</artifactId>
-      <version>1.0</version>
-      <scope>provided</scope>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>1.2.76</version>
     </dependency>
-    
-    <!-- JSON processing -->
+   
+    <!-- Add this dependency -->
     <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20230227</version>
+        <groupId>org.apache.hive</groupId>
+        <artifactId>hive-exec</artifactId>
+        <version>3.1.2</version>
+        <scope>provided</scope>
     </dependency>
-    
-    <!-- Jackson for JSON -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.14.2</version>
-    </dependency>
-  </dependencies>
+</dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+    <build>
+<plugins>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-dependency-plugin</artifactId>
+<version>2.10</version>
+<executions>
+<execution>
+<id>copy-dependencies</id>
+<phase>package</phase>
+<goals>
+<goal>copy-dependencies</goal>
+</goals>
+<configuration>
+<outputDirectory>${project.build.directory}/lib</outputDirectory>
+</configuration>
+</execution>
+</executions>
+</plugin>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-assembly-plugin</artifactId>
+<version>3.3.0</version>
+<executions>
+<execution>
+<id>make-assembly</id>
+<phase>package</phase>
+<goals>
+<goal>single</goal>
+</goals>
+</execution>
+</executions>
+<configuration>
+<descriptorRefs>
+<descriptorRef>jar-with-dependencies</descriptorRef>
+</descriptorRefs>
+</configuration>
+</plugin>
+</plugins>
+</build>
 </project>
 ```
 
-## JSON UDF Implementation
+## UDF Implementation
 
 ### Create the UDF Class
-Navigate to `json-udf/src/main/java/com/example/` and create `JsonMakerUDF.java`:
+Navigate to `udf/src/main/java/com/example/` and delete the existing `App.java` file.
+
+Create a new file `newGenericToJsonUDF.java` with the following content:
 
 ```java
 package com.example;
-
-import com.starrocks.udf.UDF;
-import org.json.JSONObject;
-
-public class JsonMakerUDF extends UDF {
-    
-    /**
-     * Creates a JSON object with key-value pairs.
-     * Usage: json_make(key1, value1, key2, value2, ...)
-     */
-    public String evaluate(String... args) {
-        if (args == null || args.length < 2 || args.length % 2 != 0) {
-            return "{}"; // Return empty JSON if arguments are invalid
-        }
-        
-        JSONObject jsonObject = new JSONObject();
-        
-        for (int i = 0; i < args.length; i += 2) {
-            String key = args[i];
-            String value = args[i + 1];
-            
-            if (key != null && value != null) {
-                jsonObject.put(key, value);
-            }
-        }
-        
-        return jsonObject.toString();
-    }
-    
-    /**
-     * Specialized version for different data types
-     */
-    public String evaluate(String key1, String value1) {
-        JSONObject jsonObject = new JSONObject();
-        if (key1 != null && value1 != null) {
-            jsonObject.put(key1, value1);
-        }
-        return jsonObject.toString();
-    }
-    
-    public String evaluate(String key1, String value1, String key2, String value2) {
-        JSONObject jsonObject = new JSONObject();
-        if (key1 != null && value1 != null) {
-            jsonObject.put(key1, value1);
-        }
-        if (key2 != null && value2 != null) {
-            jsonObject.put(key2, value2);
-        }
-        return jsonObject.toString();
-    }
-    
-    public String evaluate(String key1, String value1, String key2, String value2, 
-                          String key3, String value3) {
-        JSONObject jsonObject = new JSONObject();
-        if (key1 != null && value1 != null) {
-            jsonObject.put(key1, value1);
-        }
-        if (key2 != null && value2 != null) {
-            jsonObject.put(key2, value2);
-        }
-        if (key3 != null && value3 != null) {
-            jsonObject.put(key3, value3);
-        }
-        return jsonObject.toString();
-    }
-}
-```
-
-### Create a Nested JSON UDF (Optional)
-Create `NestedJsonUDF.java`:
-
-```java
-package com.example;
-
-import com.starrocks.udf.UDF;
-import org.json.JSONObject;
-
-public class NestedJsonUDF extends UDF {
-    
-    /**
-     * Creates a nested JSON object.
-     * Usage: nested_json(json1, json2, ...)
-     */
-    public String evaluate(String... jsonStrings) {
-        if (jsonStrings == null || jsonStrings.length == 0) {
+ 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+ 
+public class newGenericToJsonUDF {
+    public String evaluate(String keyValueString) {
+        if (keyValueString == null || keyValueString.trim().isEmpty()) {
             return "{}";
         }
-        
-        JSONObject result = new JSONObject();
-        
-        for (int i = 0; i < jsonStrings.length; i++) {
-            String jsonStr = jsonStrings[i];
-            if (jsonStr != null && isValidJson(jsonStr)) {
-                JSONObject json = new JSONObject(jsonStr);
-                result.put("level" + (i+1), json);
+ 
+        // Use ORDERED feature to preserve key order
+        JSONObject json = new JSONObject(true); // true enables LinkedHashMap internally
+        String[] pairs = keyValueString.split(",");
+        for (String pair : pairs) {
+            if (pair == null || pair.trim().isEmpty()) {
+                continue;
+            }
+            String[] keyValue = pair.split("=", 2);
+            if (keyValue.length == 2) {
+                String key = keyValue[0].trim();
+                String value = keyValue[1].trim();
+                if (key.isEmpty()) {
+                    continue;
+                }
+ 
+                // Handle nested keys (e.g., Result1.YearNumber_CY)
+                String[] keyParts = key.split("\\.");
+                JSONObject current = json;
+                for (int i = 0; i < keyParts.length - 1; i++) {
+                    String part = keyParts[i];
+                    if (!current.containsKey(part)) {
+                        // Create nested object with order preservation
+                        current.put(part, new JSONObject(true));
+                    }
+                    current = (JSONObject) current.get(part);
+                }
+                current.put(keyParts[keyParts.length - 1], value == null ? "" : value);
             }
         }
-        
-        return result.toString();
-    }
-    
-    private boolean isValidJson(String json) {
-        try {
-            new JSONObject(json);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        // Serialize with PrettyFormat for readability
+        return json.toJSONString();
     }
 }
 ```
 
-## Build and Deploy
+## Build Process
 
-### Build the Project
+### Compile and Package
+1. Navigate to your project directory:
 ```cmd
-cd json-udf
+cd your-starrocks-udf/udf
+```
+
+2. Build the project:
+```cmd
 mvn clean package
 ```
 
-Your JAR file will be available at: `json-udf/target/json-udf-1.0-SNAPSHOT-jar-with-dependencies.jar`
+3. Verify the JAR file:
+```cmd
+dir target\udf-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
+
+## Deployment
+
+### Setup HTTP Server for JAR Files
+1. Create a simple HTTP server to serve the JAR file:
+```cmd
+python -m http.server 8000
+```
+Or for Python 2:
+```cmd
+python -m SimpleHTTPServer 8000
+```
+
+2. Make sure your JAR file is in the directory where the HTTP server is running.
 
 ### Register UDF in StarRocks
+Connect to your StarRocks instance and run:
 
-1. Connect to StarRocks:
-```cmd
-mysql -P9030 -h127.0.0.1 -uroot
-```
-
-2. Create the function:
 ```sql
-CREATE FUNCTION json_make(VARCHAR, VARCHAR, ...) RETURNS VARCHAR PROPERTIES (
-    "symbol"="com.example.JsonMakerUDF",
-    "file"="hdfs:///path/to/json-udf-1.0-SNAPSHOT-jar-with-dependencies.jar",
-    "type"="JAVA_UDF"
-);
-
-CREATE FUNCTION nested_json(VARCHAR, VARCHAR, ...) RETURNS VARCHAR PROPERTIES (
-    "symbol"="com.example.NestedJsonUDF",
-    "file"="hdfs:///path/to/json-udf-1.0-SNAPSHOT-jar-with-dependencies.jar",
-    "type"="JAVA_UDF"
+CREATE FUNCTION generic_to_json(VARCHAR(65533)) RETURNS VARCHAR(65533) 
+PROPERTIES (
+    "symbol" = "com.example.newGenericToJsonUDF",
+    "type" = "StarrocksJar",
+    "file" = "http://192.168.1.76:8000/udf-1.0-SNAPSHOT-jar-with-dependencies.jar"
 );
 ```
+
+Note: Replace `192.168.1.76` with your actual server IP address.
 
 ## Testing
 
-### Basic JSON Creation
+### Basic Testing
 ```sql
-SELECT json_make('name', 'John', 'age', '30');
+SELECT generic_to_json('key1=value1,key2=value2');
 ```
-Expected result: `{"name":"John","age":"30"}`
 
-### Nested JSON
-```sql
-SELECT nested_json(
-    json_make('firstName', 'John', 'lastName', 'Doe'),
-    json_make('city', 'New York', 'state', 'NY')
-);
+Expected output:
+```json
+{"key1":"value1","key2":"value2"}
 ```
-Expected result: `{"level1":{"firstName":"John","lastName":"Doe"},"level2":{"city":"New York","state":"NY"}}`
 
-### Complex Example
+### Nested JSON Testing
 ```sql
-CREATE TABLE user_data (
-  id INT,
-  name VARCHAR(100),
-  age INT,
-  city VARCHAR(100)
-) ENGINE=OLAP
-DISTRIBUTED BY HASH(id) BUCKETS 1
-PROPERTIES ("replication_num" = "1");
+SELECT generic_to_json('Result1.YearNumber_CY=2025,Result1.FullDate_CY=2025-03-18,Result2.StoreNumber=1027');
+```
 
-INSERT INTO user_data VALUES 
-  (1, 'John', 25, 'New York'),
-  (2, 'Alice', 30, 'Boston'),
-  (3, 'Bob', 22, 'Chicago');
+Expected output:
+```json
+{"Result1":{"YearNumber_CY":"2025","FullDate_CY":"2025-03-18"},"Result2":{"StoreNumber":"1027"}}
+```
 
+### Advanced Testing with CTEs
+```sql
+WITH 
+cte1 AS (
+    SELECT StoreNumber FROM vwStoresActive WHERE StoreNumber = 1027
+),
+cte2 AS (
+    SELECT YearNumber_CY, FullDate_CY FROM vwCalendar WHERE FullDate_CY = '2025-03-18'
+)
 SELECT 
-  id,
-  json_make('name', name, 'age', CAST(age AS VARCHAR), 'city', city) AS user_json
-FROM user_data;
+    JSON_PARSE(generic_to_json(
+        CONCAT_WS(',', 
+            CONCAT('Result1.YearNumber_CY=', YearNumber_CY),
+            CONCAT('Result1.FullDate_CY=', DATE_FORMAT(FullDate_CY, '%Y-%m-%d')),
+            CONCAT('Result2.StoreNumber=', StoreNumber)
+        )
+    )) AS combined_result
+FROM cte1, cte2;
 ```
 
-## Optimizations and Extensions
+## Troubleshooting
 
-1. **Add type support**:
-   Implement additional methods for different data types (INT, DOUBLE, etc.)
+### UDF Not Found
+If StarRocks cannot find the UDF, check:
+1. The JAR file is accessible via the HTTP URL
+2. The package and class name match exactly in the CREATE FUNCTION statement
+3. The HTTP server is running and accessible from StarRocks nodes
 
-2. **Add array support**:
-   Create a separate UDF to handle array creation
+### Syntax Errors
+If queries using the UDF return syntax errors:
+1. Verify the input format matches what the UDF expects
+2. Check for any special characters in input strings
+3. Make sure the SQL query properly escapes quotes
 
-3. **Improve error handling**:
-   Add more robust validation and error messages
+### Performance Issues
+If the UDF is slow:
+1. Consider limiting the size of input strings
+2. Use targeted CTEs to reduce data volume
+3. Consider implementing a more efficient parsing algorithm for very large inputs
 
-4. **Performance tuning**:
-   Optimize for large datasets by minimizing object creation
+## Additional Resources
+- [StarRocks Documentation](https://docs.starrocks.io/)
+- [FastJSON Documentation](https://github.com/alibaba/fastjson/wiki)
+- [Maven Documentation](https://maven.apache.org/guides/index.html)
