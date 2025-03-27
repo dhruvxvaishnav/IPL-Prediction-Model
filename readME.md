@@ -126,66 +126,80 @@ Open `udf/pom.xml` and replace its contents with the following:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <groupId>com.example</groupId>
-  <artifactId>udf</artifactId>
-  <version>1.0-SNAPSHOT</version>
-
-  <name>udf</name>
-  <url>http://www.example.com</url>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
-
-  <dependencies>
-    <!-- Add StarRocks UDF dependencies -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+ 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
+ 
+    <groupId>com.example</groupId>
+<artifactId>udf</artifactId>
+<version>1.0-SNAPSHOT</version>
+ 
+    <properties>
+<maven.compiler.source>8</maven.compiler.source>
+<maven.compiler.target>8</maven.compiler.target>
+</properties>
+ 
+ <dependencies>
     <dependency>
-      <groupId>com.starrocks</groupId>
-      <artifactId>starrocks-udf-sdk</artifactId>
-      <version>1.0</version>
-      <scope>provided</scope>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>1.2.76</version>
     </dependency>
-    
-    <!-- Add other dependencies as needed -->
-  </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
-        </configuration>
-        <executions>
-          <execution>
-            <id>make-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+   
+    <!-- Add this dependency -->
+    <dependency>
+        <groupId>org.apache.hive</groupId>
+        <artifactId>hive-exec</artifactId>
+        <version>3.1.2</version>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+ 
+    <build>
+<plugins>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-dependency-plugin</artifactId>
+<version>2.10</version>
+<executions>
+<execution>
+<id>copy-dependencies</id>
+<phase>package</phase>
+<goals>
+<goal>copy-dependencies</goal>
+</goals>
+<configuration>
+<outputDirectory>${project.build.directory}/lib</outputDirectory>
+</configuration>
+</execution>
+</executions>
+</plugin>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-assembly-plugin</artifactId>
+<version>3.3.0</version>
+<executions>
+<execution>
+<id>make-assembly</id>
+<phase>package</phase>
+<goals>
+<goal>single</goal>
+</goals>
+</execution>
+</executions>
+<configuration>
+<descriptorRefs>
+<descriptorRef>jar-with-dependencies</descriptorRef>
+</descriptorRefs>
+</configuration>
+</plugin>
+</plugins>
+</build>
 </project>
+ 
 ```
 
 Note: You may need to update the StarRocks UDF SDK version based on your requirements.
