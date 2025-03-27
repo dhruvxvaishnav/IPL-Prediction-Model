@@ -1,76 +1,457 @@
-# IPL Nexus: Advanced Predictive Analytics Platform
+# Java UDF Development Guide
 
-## Abstract
-IPL Nexus represents a quantum leap in sports predictive modeling, leveraging machine learning algorithms, multidimensional player analytics, and environmental variable analysis to forecast Indian Premier League cricket match outcomes with unprecedented accuracy. This repository contains a sophisticated ensemble of predictive models that synthesize player-specific performance metrics, team dynamics, venue characteristics, and exogenous variables to generate probabilistic predictions with remarkable precision.
+This guide walks through the complete process of setting up and developing a Java UDF (User Defined Function), from environment setup to deployment.
 
-## Technological Architecture
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Environment Setup](#environment-setup)
+  - [Install Chocolatey](#install-chocolatey)
+  - [Install Java 8](#install-java-8)
+  - [Install Maven](#install-maven)
+- [Project Setup](#project-setup)
+  - [Create Maven Project](#create-maven-project)
+  - [Project Structure](#project-structure)
+  - [Configure POM.xml](#configure-pomxml)
+- [UDF Development](#udf-development)
+  - [Writing Java UDF](#writing-java-udf)
+  - [Building the Project](#building-the-project)
+- [Deployment](#deployment)
+  - [Docker Setup](#docker-setup)
+  - [MySQL Integration](#mysql-integration)
+  - [StarRocks Integration](#starrocks-integration)
+- [Testing](#testing)
+- [Troubleshooting](#troubleshooting)
 
-### Core Components
-- **Player Performance Matrix**: Multidimensional representation of player capabilities across specialized domains, including batting efficacy against specific bowling types, adaptability to match situations, and historical performance under various conditions. The matrix incorporates both career statistics and recency-weighted performance indicators to create a comprehensive player impact score.
+## Prerequisites
 
-- **Venue Intelligence System**: Geospatial analysis of venue-specific performance patterns that quantifies the subtle influences of ground dimensions, pitch characteristics, and historical performance trends. The system recognizes that certain venues favor particular playing styles and adjusts predictions accordingly.
+- Windows operating system
+- Administrator privileges
+- Internet connection
 
-- **Environmental Coefficient Generator**: Translates meteorological conditions into performance modifiers by analyzing how weather patterns affect different player archetypes. This includes dew factor analysis, humidity impacts on ball movement, and wind patterns that influence batting and bowling strategies.
+## Environment Setup
 
-- **Neural Network Ensemble**: Hybridized prediction model combining rule-based heuristics with sophisticated machine learning algorithms. This ensemble approach leverages the strengths of both deterministic models and probabilistic neural networks to produce robust predictions that account for the inherent uncertainty in sporting events.
+### Install Chocolatey
 
-### Advanced Analytics
-- **Matchup Superiority Indexing**: Quantifies player-vs-player statistical advantages by analyzing historical confrontations and identifying performance patterns when specific player types encounter one another. This granular analysis captures the nuances of cricket matchups that broader team statistics might miss.
+1. Open PowerShell as Administrator
+2. Run the following command:
 
-- **Form Trajectory Analysis**: Temporal modeling of performance trends using time-series analysis techniques to identify momentum shifts and form trajectories. This component recognizes that recent performance often carries greater predictive weight than career averages.
-
-- **Transfer Impact Quantification**: Algorithmic assessment of roster changes that evaluates how player transfers affect team dynamics and performance expectations. The system considers both the statistical contribution of transferred players and their tactical fit within new team structures.
-
-- **Toss Outcome Optimization**: Stochastic modeling of toss decision impacts across different venues and weather conditions. This component recognizes that the advantage conferred by winning the toss varies significantly based on contextual factors.
-
-## Algorithmic Brilliance
-The system's predictive excellence derives from its synthetic intelligence approach, wherein multiple specialized models contribute to a Bayesian prediction framework. The core algorithm integrates player-specific strengths with environmental variables to generate robust win probabilities that consistently demonstrate exceptional accuracy.
-
-The ensemble methodology incorporates:
-1. Random Forest classifiers that excel at identifying complex non-linear relationships between team compositions and match outcomes
-2. Gradient Boosting models that progressively refine predictions by focusing on previously misclassified instances
-3. Neural Network components that capture latent patterns invisible to traditional statistical approaches
-4. Rule-based systems that incorporate domain expertise about cricket dynamics
-
-This multilayered approach enables the model to capture both the statistical regularities of cricket performance and the dynamic, contextual factors that influence individual matches.
-
-## Usage Paradigm
-For optimal deployment of this analytical engine:
-
-```python
-# Initialize prediction for upcoming fixture
-match_prediction = predict_match_with_clear_winner(
-    'Team_Alpha',
-    'Team_Beta',
-    'Strategic_Venue',
-    'Toss_Victor',
-    'Strategic_Decision'
-)
-
-# Extract strategic intelligence
-winner, confidence_coefficient, strategic_recommendation = match_prediction
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 ```
 
-## Performance Metrics
-In validation against the IPL 2024 playoff series, the system demonstrated remarkable predictive accuracy:
-- 80% correct winner identification across all matches
-- Mean probability calibration error below 0.07
-- Consistent outperformance of conventional prediction methodologies
-- Effective identification of undervalued teams and match outcomes
+3. Verify installation:
 
-The system particularly excels at identifying situations where conventional wisdom misaligns with objective analytical assessment, providing valuable contrarian insights.
+```powershell
+choco --version
+```
 
-## Future Enhancements
-The research trajectory includes integration of:
-- Quantum-inspired optimization algorithms for more efficient parameter tuning
-- Physiological player monitoring data to incorporate fitness and fatigue metrics
-- Advanced pitch condition assessment using computer vision technology
-- Crowd sentiment analysis via social media to quantify psychological factors
-- Real-time performance metrics during live matches for dynamic prediction updates
-- Expanded player matchup analysis incorporating spatial and temporal patterns
-- Integration of team strategy classification models to predict tactical approaches
+### Install Java 8
 
-## Acknowledgements
-This framework represents a synthesis of cutting-edge sports analytics methodologies, drawing inspiration from contemporary research in statistical modeling, machine learning, and behavioral economics. It stands as a testament to the transformative potential of advanced analytical techniques when applied to the rich complexity of cricket.
+1. Use Chocolatey to install JDK 8:
 
-The IPL Nexus platform exemplifies how sophisticated computational models can distill meaning from the immense complexity of sporting competitions, identifying patterns and relationships that traditional analysis might overlook. Through rigorous validation and continuous refinement, the system continues to push the boundaries of what's possible in sports prediction technology.
+```powershell
+choco install jdk8 -y
+```
+
+2. Verify Java installation:
+
+```powershell
+java -version
+```
+
+3. Verify Java compiler:
+
+```powershell
+javac -version
+```
+
+### Install Maven
+
+1. Use Chocolatey to install Maven:
+
+```powershell
+choco install maven -y
+```
+
+2. Verify Maven installation:
+
+```powershell
+mvn --version
+```
+
+## Project Setup
+
+### Create Maven Project
+
+1. Navigate to your desired workspace directory:
+
+```cmd
+cd C:\workspace
+```
+
+2. Create a parent directory for your project:
+
+```cmd
+mkdir your-starrocks-udf
+cd your-starrocks-udf
+```
+
+3. Generate a Maven project:
+
+```cmd
+mvn archetype:generate -DgroupId=com.example -DartifactId=udf -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+```
+
+### Project Structure
+
+Your project structure should look like this:
+
+```
+your-starrocks-udf/
+└── udf/
+    ├── pom.xml
+    ├── src/
+    │   ├── main/
+    │   │   ├── java/
+    │   │   │   └── com/
+    │   │   │       └── example/
+    │   │   │           └── App.java
+    │   │   └── resources/
+    └── target/    (created after building)
+```
+
+### Configure POM.xml
+
+Open `udf/pom.xml` and replace its contents with the following:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example</groupId>
+  <artifactId>udf</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <name>udf</name>
+  <url>http://www.example.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <!-- Add StarRocks UDF dependencies -->
+    <dependency>
+      <groupId>com.starrocks</groupId>
+      <artifactId>starrocks-udf-sdk</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- Add other dependencies as needed -->
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+```
+
+Note: You may need to update the StarRocks UDF SDK version based on your requirements.
+
+## UDF Development
+
+### Writing Java UDF
+
+1. Navigate to the source directory:
+
+```cmd
+cd udf/src/main/java/com/example/
+```
+
+2. Remove the default App.java file:
+
+```cmd
+del App.java
+```
+
+3. Create a new UDF class (e.g., `StringLengthUDF.java`):
+
+```java
+package com.example;
+
+// Import StarRocks UDF SDK classes
+import com.starrocks.udf.UDF;
+
+public class StringLengthUDF extends UDF {
+    
+    public Integer evaluate(String str) {
+        if (str == null) {
+            return null;
+        }
+        return str.length();
+    }
+}
+```
+
+### Building the Project
+
+1. Navigate back to the project directory:
+
+```cmd
+cd C:\workspace\your-starrocks-udf\udf
+```
+
+2. Clean and build the project:
+
+```cmd
+mvn clean package
+```
+
+3. Verify the JAR file was created:
+
+```cmd
+dir target\udf-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
+
+After building, your JAR file will be available at: `C:\workspace\your-starrocks-udf\udf\target\udf-1.0-SNAPSHOT-jar-with-dependencies.jar`
+
+## Deployment
+
+### Docker Setup
+
+1. Install Docker Desktop for Windows:
+
+```powershell
+choco install docker-desktop -y
+```
+
+2. Start Docker Desktop and wait for it to initialize
+
+3. Create a Dockerfile in your project root:
+
+```cmd
+cd C:\workspace\your-starrocks-udf
+notepad Dockerfile
+```
+
+4. Add the following content to the Dockerfile:
+
+```Dockerfile
+FROM openjdk:8-jdk-slim
+
+WORKDIR /app
+
+# Copy the JAR file
+COPY udf/target/udf-1.0-SNAPSHOT-jar-with-dependencies.jar /app/
+
+# Set environment variables if needed
+ENV JAVA_OPTS=""
+
+# Command to run when the container starts
+CMD ["java", "-jar", "udf-1.0-SNAPSHOT-jar-with-dependencies.jar"]
+```
+
+5. Build the Docker image:
+
+```cmd
+docker build -t starrocks-udf:1.0 .
+```
+
+6. Run the Docker container:
+
+```cmd
+docker run -it --name starrocks-udf starrocks-udf:1.0
+```
+
+### MySQL Integration
+
+1. Pull the MySQL Docker image:
+
+```cmd
+docker pull mysql:5.7
+```
+
+2. Start a MySQL container:
+
+```cmd
+docker run --name mysql-db -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 -d mysql:5.7
+```
+
+3. Connect to MySQL:
+
+```cmd
+docker exec -it mysql-db mysql -uroot -ppassword
+```
+
+4. Create a test database:
+
+```sql
+CREATE DATABASE testdb;
+USE testdb;
+```
+
+5. Create a test table:
+
+```sql
+CREATE TABLE test_data (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  text_data VARCHAR(255)
+);
+```
+
+6. Insert sample data:
+
+```sql
+INSERT INTO test_data (text_data) VALUES 
+  ('Hello World'),
+  ('StarRocks UDF'),
+  ('Testing 123');
+```
+
+### StarRocks Integration
+
+1. Pull the StarRocks Docker image:
+
+```cmd
+docker pull starrocks/starrocks-server:latest
+```
+
+2. Start a StarRocks container:
+
+```cmd
+docker run -d --name starrocks-server -p 9030:9030 -p 8040:8040 starrocks/starrocks-server:latest
+```
+
+3. Connect to StarRocks:
+
+```cmd
+docker exec -it starrocks-server mysql -P9030 -h127.0.0.1 -uroot
+```
+
+4. Create a function using your UDF:
+
+```sql
+CREATE FUNCTION string_length(VARCHAR) RETURNS INT PROPERTIES (
+    "symbol"="com.example.StringLengthUDF",
+    "file"="hdfs:///path/to/udf-1.0-SNAPSHOT-jar-with-dependencies.jar",
+    "type"="JAVA_UDF"
+);
+```
+
+Note: Replace `hdfs:///path/to/` with the actual path where you store the JAR file.
+
+5. Test the function:
+
+```sql
+SELECT string_length('Hello StarRocks');
+```
+
+## Testing
+
+1. Connect to StarRocks:
+
+```cmd
+docker exec -it starrocks-server mysql -P9030 -h127.0.0.1 -uroot
+```
+
+2. Create a test database and table:
+
+```sql
+CREATE DATABASE test_udf;
+USE test_udf;
+
+CREATE TABLE test (
+  id INT,
+  text_col VARCHAR(100)
+) ENGINE=OLAP
+DISTRIBUTED BY HASH(id) BUCKETS 1
+PROPERTIES (
+  "replication_num" = "1"
+);
+```
+
+3. Insert test data:
+
+```sql
+INSERT INTO test VALUES (1, 'test'), (2, 'longer test string'), (3, NULL);
+```
+
+4. Test your UDF:
+
+```sql
+SELECT id, text_col, string_length(text_col) AS length FROM test;
+```
+
+## Troubleshooting
+
+### Maven Build Issues
+
+If `mvn clean package` fails:
+
+1. Verify Java installation:
+```cmd
+java -version
+javac -version
+```
+
+2. Check Maven settings:
+```cmd
+mvn -version
+```
+
+3. Ensure POM.xml is correctly formatted
+
+### Docker Issues
+
+1. Check Docker service is running:
+```cmd
+docker ps
+```
+
+2. Restart Docker if needed
+
+### UDF Registration Issues
+
+1. Ensure JAR file is accessible to StarRocks
+2. Check logs for class loading errors:
+```cmd
+docker logs starrocks-server
+```
+
+## Additional Resources
+
+- [StarRocks Documentation](https://docs.starrocks.io/)
+- [Maven Documentation](https://maven.apache.org/guides/index.html)
+- [Java UDF Development Guide](https://docs.starrocks.io/docs/developer-guide/java-udf/)
