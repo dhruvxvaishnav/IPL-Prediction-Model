@@ -229,7 +229,7 @@ CREATE FUNCTION generic_to_json(VARCHAR(65533)) RETURNS VARCHAR(65533)
 PROPERTIES (
     "symbol" = "com.example.newGenericToJsonUDF",
     "type" = "StarrocksJar",
-    "file" = "http://192.168.1.76:8000/udf-1.0-SNAPSHOT-jar-with-dependencies.jar"
+    "file" = "http://192.168.1.76:8000/target/udf-1.0-SNAPSHOT-jar-with-dependencies.jar"
 );
 ```
 
