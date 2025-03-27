@@ -10,6 +10,7 @@ This guide walks through creating a Java UDF for StarRocks that converts string 
 - [Build Process](#build-process)
 - [Deployment](#deployment)
 - [Testing](#testing)
+- [Test Results](#test-results)
 
 ## Prerequisites
 - Windows operating system
@@ -229,7 +230,7 @@ CREATE FUNCTION generic_to_json(VARCHAR(65533)) RETURNS VARCHAR(65533)
 PROPERTIES (
     "symbol" = "com.example.newGenericToJsonUDF",
     "type" = "StarrocksJar",
-    "file" = "http://192.168.1.76:8000/target/udf-1.0-SNAPSHOT-jar-with-dependencies.jar"
+    "file" = "http://192.168.1.76:8000/udf-1.0-SNAPSHOT-jar-with-dependencies.jar"
 );
 ```
 
@@ -276,6 +277,32 @@ SELECT
     )) AS combined_result
 FROM cte1, cte2;
 ```
+
+## Test Results
+
+### CTE Test Case Results
+
+The CTE test query returns a parsed JSON object with the following structure:
+
+```json
+{
+  "Result1": {
+    "YearNumber_CY": "2025",
+    "FullDate_CY": "2025-03-18"
+  },
+  "Result2": {
+    "StoreNumber": "1027"
+  }
+}
+```
+
+This demonstrates:
+1. Nested JSON objects are properly created
+2. Data from different CTEs is correctly combined
+3. Dot notation in keys creates proper object hierarchy
+4. The UDF works correctly with database views and functions
+
+These results validate that our UDF works correctly for combining data from multiple sources into a structured JSON object that preserves nested relationships.
 
 ## Troubleshooting
 
